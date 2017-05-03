@@ -1,0 +1,21 @@
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\bin\Debug\KalamburySerwer.exe.config
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\bin\Debug\KalamburySerwer.exe
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\bin\Debug\KalamburySerwer.pdb
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.csprojResolveAssemblyReference.cache
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.ServerStatisticsWindow.resources
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.Properties.Resources.resources
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.csproj.GenerateResource.Cache
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.exe
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.pdb
+c:\users\paweł różyński\documents\visual studio 2017\Projects\KalamburySerwer\KalamburySerwer\obj\Debug\KalamburySerwer.ConnectionWindow.resources
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\bin\Debug\KalamburySerwer.exe.config
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.exe
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.pdb
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\bin\Debug\KalamburySerwer.exe
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\bin\Debug\KalamburySerwer.pdb
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.csprojResolveAssemblyReference.cache
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.ConnectionWindow.resources
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.ServerStatisticsWindow.resources
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.Properties.Resources.resources
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.csproj.GenerateResource.Cache
+D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.KickReasonWindow.resources

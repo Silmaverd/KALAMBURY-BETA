@@ -1,0 +1,24 @@
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\bin\Debug\KalamburyKlient.exe.config
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\bin\Debug\KalamburyKlient.exe
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\bin\Debug\KalamburyKlient.pdb
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.csprojResolveAssemblyReference.cache
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.MainWindow.resources
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.Properties.Resources.resources
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.csproj.GenerateResource.Cache
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.exe
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.pdb
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.LoginWindow.resources
+c:\users\zachary różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.RoomCreationWindow.resources
+C:\Users\Zachary Różyński\documents\visual studio 2015\Projects\KalamburyKlient\KalamburyKlient\obj\Debug\KalamburyKlient.GameWindow.resources
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\bin\Debug\KalamburyKlient.exe.config
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.exe
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.pdb
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\bin\Debug\KalamburyKlient.exe
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\bin\Debug\KalamburyKlient.pdb
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.csprojResolveAssemblyReference.cache
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.GameWindow.resources
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.LoginWindow.resources
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.MainWindow.resources
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.Properties.Resources.resources
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.RoomCreationWindow.resources
+D:\KALAMBURY PROJEKT\KALAMBURY\Kalambury-K-S\KalamburyKlient\obj\Debug\KalamburyKlient.csproj.GenerateResource.Cache
