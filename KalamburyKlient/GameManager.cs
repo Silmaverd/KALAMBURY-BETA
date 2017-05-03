@@ -122,8 +122,6 @@ namespace KalamburyKlient
 
         private string [] GetAllCommandsFromRaw(string RAW_COMMAND)
         {
-            //string []COMMAND = RAW_COMMAND.Split(';');
-            //COMMAND[COMMAND.Length] = COMMAND[COMMAND.Length].Substring(0, COMMAND[COMMAND.Length].IndexOf('\0'));
             string COMMAND;
             try
             {
@@ -164,10 +162,10 @@ namespace KalamburyKlient
             if (commandHeader.Equals("COORDINATE"))
             {
                 StringBuilder coordinates = new StringBuilder();
-                for(int i = 1; i < COMMAND.Length; i++) {
+                for(int i = 2; i < COMMAND.Length; i++) {
                     coordinates.Append(COMMAND[i] + ":");
                 }
-                this.UpdateCoordinates(coordinates.ToString());
+                this.UpdateCoordinates(coordinates.ToString(),COMMAND[1]);
             }
             if (commandHeader.Equals("ROOM_CREATION_OK"))
             {
@@ -225,9 +223,9 @@ namespace KalamburyKlient
             this.gameWindow.UpdateChatRoom(message);
         }
 
-        private void UpdateCoordinates(string coordinates)
+        private void UpdateCoordinates(string coordinates, string COLOR)
         {
-            this.gameWindow.DrawCoordinates(coordinates.Split(':'));
+            this.gameWindow.DrawCoordinates(coordinates.Split(':'),COLOR);
         }
 
         private void StartGame()

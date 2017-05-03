@@ -13,6 +13,7 @@ namespace KalamburySerwer
         public int PLAYER_COUNT { set; get; }
         public string STATUS { set; get; }
         public int ADMIN_ID { set; get; }
+        public string CATCHWORD { set; get; }
 
         public GameRoom()
         {

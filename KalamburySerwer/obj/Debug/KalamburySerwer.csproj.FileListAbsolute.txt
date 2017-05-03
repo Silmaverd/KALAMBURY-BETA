@@ -19,3 +19,14 @@ D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\Kalam
 D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.Properties.Resources.resources
 D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.csproj.GenerateResource.Cache
 D:\KALAMBURY PROJEKT\Kalambury-K-S-Funkcjonalno-\KalamburySerwer\obj\Debug\KalamburySerwer.KickReasonWindow.resources
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\bin\Debug\KalamburySerwer.exe.config
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\bin\Debug\KalamburySerwer.exe
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\bin\Debug\KalamburySerwer.pdb
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.csprojResolveAssemblyReference.cache
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.ConnectionWindow.resources
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.KickReasonWindow.resources
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.ServerStatisticsWindow.resources
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.Properties.Resources.resources
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.csproj.GenerateResource.Cache
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.exe
+D:\GIT Projekty\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.pdb

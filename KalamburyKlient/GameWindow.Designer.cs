@@ -41,8 +41,19 @@
             this.catchwordGetBtn = new System.Windows.Forms.Button();
             this.catchwordField = new System.Windows.Forms.Label();
             this.clearBtn = new System.Windows.Forms.Button();
-            this.catchwordFoundBtn = new System.Windows.Forms.Button();
+            this.chosenColorVisualizer = new System.Windows.Forms.PictureBox();
+            this.chosenBLACK = new System.Windows.Forms.PictureBox();
+            this.chosenRED = new System.Windows.Forms.PictureBox();
+            this.chosenBLUE = new System.Windows.Forms.PictureBox();
+            this.chosenGREEN = new System.Windows.Forms.PictureBox();
+            this.chosenYELLOW = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.drawingDesk)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenColorVisualizer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenBLACK)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenRED)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenBLUE)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenGREEN)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenYELLOW)).BeginInit();
             this.SuspendLayout();
             // 
             // LBL_USER_NAME
@@ -95,7 +106,7 @@
             this.drawingDesk.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.drawingDesk.Location = new System.Drawing.Point(12, 125);
             this.drawingDesk.Name = "drawingDesk";
-            this.drawingDesk.Size = new System.Drawing.Size(419, 397);
+            this.drawingDesk.Size = new System.Drawing.Size(761, 490);
             this.drawingDesk.TabIndex = 4;
             this.drawingDesk.TabStop = false;
             this.drawingDesk.MouseDown += new System.Windows.Forms.MouseEventHandler(this.drawingDesk_MouseDown);
@@ -106,7 +117,7 @@
             // 
             this.LBL_ROOM_PLAYERS.AutoSize = true;
             this.LBL_ROOM_PLAYERS.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_ROOM_PLAYERS.Location = new System.Drawing.Point(445, 19);
+            this.LBL_ROOM_PLAYERS.Location = new System.Drawing.Point(776, 38);
             this.LBL_ROOM_PLAYERS.Name = "LBL_ROOM_PLAYERS";
             this.LBL_ROOM_PLAYERS.Size = new System.Drawing.Size(56, 13);
             this.LBL_ROOM_PLAYERS.TabIndex = 5;
@@ -116,9 +127,9 @@
             // 
             this.playersInTheRoom.FormattingEnabled = true;
             this.playersInTheRoom.ItemHeight = 16;
-            this.playersInTheRoom.Location = new System.Drawing.Point(448, 44);
+            this.playersInTheRoom.Location = new System.Drawing.Point(779, 54);
             this.playersInTheRoom.Name = "playersInTheRoom";
-            this.playersInTheRoom.Size = new System.Drawing.Size(238, 148);
+            this.playersInTheRoom.Size = new System.Drawing.Size(327, 148);
             this.playersInTheRoom.TabIndex = 6;
             // 
             // chatRoom
@@ -126,24 +137,24 @@
             this.chatRoom.Font = new System.Drawing.Font("Cambria", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.chatRoom.FormattingEnabled = true;
             this.chatRoom.ItemHeight = 12;
-            this.chatRoom.Location = new System.Drawing.Point(448, 206);
+            this.chatRoom.Location = new System.Drawing.Point(779, 208);
             this.chatRoom.Name = "chatRoom";
             this.chatRoom.ScrollAlwaysVisible = true;
-            this.chatRoom.Size = new System.Drawing.Size(238, 316);
+            this.chatRoom.Size = new System.Drawing.Size(327, 436);
             this.chatRoom.TabIndex = 7;
             this.chatRoom.TabStop = false;
             // 
             // chatMessage
             // 
-            this.chatMessage.Location = new System.Drawing.Point(449, 530);
+            this.chatMessage.Location = new System.Drawing.Point(779, 650);
             this.chatMessage.Name = "chatMessage";
-            this.chatMessage.Size = new System.Drawing.Size(195, 23);
+            this.chatMessage.Size = new System.Drawing.Size(284, 23);
             this.chatMessage.TabIndex = 8;
             this.chatMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.chatMessage_KeyPress);
             // 
             // chatSendMessageBtn
             // 
-            this.chatSendMessageBtn.Location = new System.Drawing.Point(650, 530);
+            this.chatSendMessageBtn.Location = new System.Drawing.Point(1069, 650);
             this.chatSendMessageBtn.Name = "chatSendMessageBtn";
             this.chatSendMessageBtn.Size = new System.Drawing.Size(36, 23);
             this.chatSendMessageBtn.TabIndex = 9;
@@ -154,9 +165,9 @@
             // catchwordGetBtn
             // 
             this.catchwordGetBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.catchwordGetBtn.Location = new System.Drawing.Point(565, 9);
+            this.catchwordGetBtn.Location = new System.Drawing.Point(933, 12);
             this.catchwordGetBtn.Name = "catchwordGetBtn";
-            this.catchwordGetBtn.Size = new System.Drawing.Size(121, 23);
+            this.catchwordGetBtn.Size = new System.Drawing.Size(172, 36);
             this.catchwordGetBtn.TabIndex = 10;
             this.catchwordGetBtn.Text = "LOSUJ!";
             this.catchwordGetBtn.UseVisualStyleBackColor = true;
@@ -174,31 +185,85 @@
             // 
             // clearBtn
             // 
-            this.clearBtn.Location = new System.Drawing.Point(12, 528);
+            this.clearBtn.Location = new System.Drawing.Point(12, 621);
             this.clearBtn.Name = "clearBtn";
-            this.clearBtn.Size = new System.Drawing.Size(101, 27);
+            this.clearBtn.Size = new System.Drawing.Size(101, 52);
             this.clearBtn.TabIndex = 12;
             this.clearBtn.Text = "Wyczyść!";
             this.clearBtn.UseVisualStyleBackColor = true;
             this.clearBtn.Click += new System.EventHandler(this.clearBtn_Click);
             // 
-            // catchwordFoundBtn
+            // chosenColorVisualizer
             // 
-            this.catchwordFoundBtn.Location = new System.Drawing.Point(119, 528);
-            this.catchwordFoundBtn.Name = "catchwordFoundBtn";
-            this.catchwordFoundBtn.Size = new System.Drawing.Size(314, 27);
-            this.catchwordFoundBtn.TabIndex = 13;
-            this.catchwordFoundBtn.Text = "Hasło odgadnięte!";
-            this.catchwordFoundBtn.UseVisualStyleBackColor = true;
-            this.catchwordFoundBtn.Click += new System.EventHandler(this.catchwordFoundBtn_Click);
+            this.chosenColorVisualizer.BackColor = System.Drawing.Color.Black;
+            this.chosenColorVisualizer.Location = new System.Drawing.Point(119, 623);
+            this.chosenColorVisualizer.Name = "chosenColorVisualizer";
+            this.chosenColorVisualizer.Size = new System.Drawing.Size(125, 50);
+            this.chosenColorVisualizer.TabIndex = 13;
+            this.chosenColorVisualizer.TabStop = false;
+            // 
+            // chosenBLACK
+            // 
+            this.chosenBLACK.BackColor = System.Drawing.Color.Black;
+            this.chosenBLACK.Location = new System.Drawing.Point(474, 621);
+            this.chosenBLACK.Name = "chosenBLACK";
+            this.chosenBLACK.Size = new System.Drawing.Size(55, 50);
+            this.chosenBLACK.TabIndex = 14;
+            this.chosenBLACK.TabStop = false;
+            this.chosenBLACK.Click += new System.EventHandler(this.chosenBLACK_Click);
+            // 
+            // chosenRED
+            // 
+            this.chosenRED.BackColor = System.Drawing.Color.Red;
+            this.chosenRED.Location = new System.Drawing.Point(535, 621);
+            this.chosenRED.Name = "chosenRED";
+            this.chosenRED.Size = new System.Drawing.Size(55, 50);
+            this.chosenRED.TabIndex = 15;
+            this.chosenRED.TabStop = false;
+            this.chosenRED.Click += new System.EventHandler(this.chosenRED_Click);
+            // 
+            // chosenBLUE
+            // 
+            this.chosenBLUE.BackColor = System.Drawing.Color.Blue;
+            this.chosenBLUE.Location = new System.Drawing.Point(596, 621);
+            this.chosenBLUE.Name = "chosenBLUE";
+            this.chosenBLUE.Size = new System.Drawing.Size(55, 50);
+            this.chosenBLUE.TabIndex = 16;
+            this.chosenBLUE.TabStop = false;
+            this.chosenBLUE.Click += new System.EventHandler(this.chosenBLUE_Click);
+            // 
+            // chosenGREEN
+            // 
+            this.chosenGREEN.BackColor = System.Drawing.Color.Lime;
+            this.chosenGREEN.Location = new System.Drawing.Point(657, 621);
+            this.chosenGREEN.Name = "chosenGREEN";
+            this.chosenGREEN.Size = new System.Drawing.Size(55, 50);
+            this.chosenGREEN.TabIndex = 17;
+            this.chosenGREEN.TabStop = false;
+            this.chosenGREEN.Click += new System.EventHandler(this.chosenGREEN_Click);
+            // 
+            // chosenYELLOW
+            // 
+            this.chosenYELLOW.BackColor = System.Drawing.Color.Yellow;
+            this.chosenYELLOW.Location = new System.Drawing.Point(718, 621);
+            this.chosenYELLOW.Name = "chosenYELLOW";
+            this.chosenYELLOW.Size = new System.Drawing.Size(55, 50);
+            this.chosenYELLOW.TabIndex = 18;
+            this.chosenYELLOW.TabStop = false;
+            this.chosenYELLOW.Click += new System.EventHandler(this.chosenYELLOW_Click);
             // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.ForestGreen;
-            this.ClientSize = new System.Drawing.Size(698, 567);
-            this.Controls.Add(this.catchwordFoundBtn);
+            this.BackColor = System.Drawing.Color.SkyBlue;
+            this.ClientSize = new System.Drawing.Size(1118, 685);
+            this.Controls.Add(this.chosenYELLOW);
+            this.Controls.Add(this.chosenGREEN);
+            this.Controls.Add(this.chosenBLUE);
+            this.Controls.Add(this.chosenRED);
+            this.Controls.Add(this.chosenBLACK);
+            this.Controls.Add(this.chosenColorVisualizer);
             this.Controls.Add(this.clearBtn);
             this.Controls.Add(this.catchwordField);
             this.Controls.Add(this.catchwordGetBtn);
@@ -220,6 +285,12 @@
             this.TopMost = true;
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.GameWindow_FormClosed);
             ((System.ComponentModel.ISupportInitialize)(this.drawingDesk)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenColorVisualizer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenBLACK)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenRED)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenBLUE)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenGREEN)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chosenYELLOW)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,6 +311,11 @@
         private System.Windows.Forms.Button catchwordGetBtn;
         private System.Windows.Forms.Label catchwordField;
         private System.Windows.Forms.Button clearBtn;
-        private System.Windows.Forms.Button catchwordFoundBtn;
+        private System.Windows.Forms.PictureBox chosenColorVisualizer;
+        private System.Windows.Forms.PictureBox chosenBLACK;
+        private System.Windows.Forms.PictureBox chosenRED;
+        private System.Windows.Forms.PictureBox chosenBLUE;
+        private System.Windows.Forms.PictureBox chosenGREEN;
+        private System.Windows.Forms.PictureBox chosenYELLOW;
     }
 }

@@ -13,6 +13,8 @@ namespace KalamburySerwer
 {
     class ClientManager
     {
+        private List<int> _reservedClientIDs;
+        private List<int> _reservedRoomIDs;
         private List<string> _catchWords;
         private List<GameClient> _clients;
         private List<GameRoom> _rooms;
@@ -27,7 +29,7 @@ namespace KalamburySerwer
             this.SetClientsModyfyingTrue();
             this._amountOfActiveClients++;
             GameClient newGameClient = new GameClient();
-            newGameClient.Connect(clientSocket, this._amountOfActiveClients);
+            newGameClient.Connect(clientSocket, this.GetFreeClientID());
             newGameClient.SetUserName(username);
             this._clients.Add(newGameClient);
             this.AddClientUsername(username);
@@ -35,6 +37,33 @@ namespace KalamburySerwer
             this.SendUpdateAboutRooms();
             this.SetClientsModyfyingFalse();
         }
+        private int GetFreeClientID()
+        {
+            Random randomID = new Random();
+            while (true)
+            {
+                int newID = randomID.Next(10000) + 1;
+                if (!this._reservedClientIDs.Contains(newID))
+                {
+                    this._reservedClientIDs.Add(newID);
+                    return newID;
+                }
+            }
+        }
+        private int GetFreeRoomID()
+        {
+            while (true)
+            {
+                Random randomID = new Random();
+                int newID = randomID.Next(10000) + 1;
+                if (!this._reservedRoomIDs.Contains(newID))
+                {
+                    this._reservedRoomIDs.Add(newID);
+                    return newID;
+                }
+            }
+        }
+
         private void AddClientUsername(string username)
         {
             if (this._activeClients.InvokeRequired)
@@ -178,16 +207,19 @@ namespace KalamburySerwer
                     client.SetStatus("W grze!");
                     GameRoom newGameRoom = new GameRoom();
                     newGameRoom.NAME = roomName;
-                    newGameRoom.ID = this._rooms.Count + 1;
+                    newGameRoom.ID = this.GetFreeRoomID();
                     newGameRoom.PLAYER_COUNT = 1;
                     newGameRoom.ADMIN_ID = client.GetID();
                     this._rooms.Add(newGameRoom);
                     this.AddNewGameRoomName(newGameRoom.NAME);
                     this.SendRoomAcceptMsgAndInitialize(userId, newGameRoom.ID);
-                    Thread.Sleep(50);
+                    Thread.Sleep(1000);
                     this.SendAdminInformation(client.GetID());
+                    Thread.Sleep(100);
                     this.SendUpdateAboutRooms();
+                    Thread.Sleep(100);
                     this.SendRoomUsersUpdate(newGameRoom.ID);
+                    Thread.Sleep(100);
                     this.SendUpdateAboutClients();
                 }
             }
@@ -223,11 +255,13 @@ namespace KalamburySerwer
                 gameClient.SetStatus("W menu.");
                 GameRoom gameRoom = this.GetGameRoomByID(gameClient.GetRoomId());
                 int ROOM_ID = gameClient.GetRoomId();
+                this._reservedRoomIDs.Remove(ROOM_ID);
                 gameClient.SetRoomId(0);
                 gameRoom.PLAYER_COUNT--;
                 if (gameRoom.ADMIN_ID.Equals(gameClient.GetID()))
                 {
                     gameRoom.STATUS = "OCZEKUJE";
+                    Thread.Sleep(500);
                     this.InitializeNewRoomAdmin(ROOM_ID);
                 }
                 this.SendRoomUsersUpdate(gameRoom.ID);
@@ -249,14 +283,36 @@ namespace KalamburySerwer
                 int ROOM_ID = gameClient.GetRoomId();
                 string username = gameClient.GetUserName() + " - ";
                 this.SendChatMessage(username + COMMAND[1], ROOM_ID);
+
+                GameRoom gameRoom = this.GetGameRoomByID(ROOM_ID);
+                if (gameRoom.CATCHWORD.Equals(COMMAND[1]))
+                {
+                    gameClient.UpdateScore();
+                    this.SendChatMessage("ODPOWIEDŹ<colon> " + " - "+ COMMAND[1], gameRoom.ID);
+                    Thread.Sleep(200);
+                    this.InitializeNewRoomAdmin(gameRoom.ID);
+                    Thread.Sleep(100);
+                    this.SendRoomUsersUpdate(gameRoom.ID);
+                    return;
+                }
+
+                string[] answerSplitted = COMMAND[1].Split(' ');
+                foreach(string answer in answerSplitted)
+                {
+                    if(gameRoom.CATCHWORD.Contains(answer) && answer.Length >= 5)
+                    {
+                        this.SendChatMessage("BLISKO<colon> " + username  + COMMAND[1], gameRoom.ID);
+                        return;
+                    }
+                }
             }
             if (COMMAND[0].Equals("GET_CATCHWORD"))
             {
-                //TODO
                 GameClient roomAdmin = this.GetGameClientById(userId);
                 GameRoom gameRoom = this.GetGameRoomByID(roomAdmin.GetRoomId());
                 gameRoom.STATUS = "W GRZE!";
                 string CATCHWORD = this.GetRandomCatchWord();
+                gameRoom.CATCHWORD = CATCHWORD;
                 roomAdmin.SendMessage("CATCHWORD:"+CATCHWORD+";");
                 this.SendUpdateAboutRooms();
             }
@@ -421,6 +477,8 @@ namespace KalamburySerwer
         {
             this._clients = new List<GameClient>();
             this._rooms = new List<GameRoom>();
+            this._reservedClientIDs = new List<int>();
+            this._reservedRoomIDs = new List<int>();
             this._catchWords = new List<string>();
             this._amountOfActiveClients = 0;
             this._commandListenerThread = new Thread(this.ListenToClientsMessages);

@@ -17,6 +17,7 @@ namespace KalamburyKlient
         private List<Coordinate> coordinatesToSend;
         private bool mousePressed = false;
         private bool roomAdmin = false;
+        private string chosenCOLOR = "BLACK";
 
         public GameWindow(string userName, string roomName)
         {
@@ -25,14 +26,19 @@ namespace KalamburyKlient
             this.roomName.Text = roomName;
             this.catchwordGetBtn.Visible = false;
             this.clearBtn.Visible = false;
-            this.catchwordFoundBtn.Visible = false;
+            this.chosenBLACK.Visible = false;
+            this.chosenRED.Visible = false;
+            this.chosenBLUE.Visible = false;
+            this.chosenGREEN.Visible = false;
+            this.chosenYELLOW.Visible = false;
+            this.chosenColorVisualizer.Visible = false;
             this.drawingDesk.Image = new Bitmap(this.drawingDesk.Width, this.drawingDesk.Height);
             this.coordinatesToSend = new List<Coordinate>();
         }
 
         private string GetSendCoordinatesCommand()
         {
-            StringBuilder coordinatesCommand = new StringBuilder("COORDINATE:");
+            StringBuilder coordinatesCommand = new StringBuilder("COORDINATE:"+this.chosenCOLOR+":");
             int MaxCoords = 100;
             int CoordsToSend = 0;
             for(int i = 0; i < coordinatesToSend.Count; i+=3) {
@@ -173,9 +179,15 @@ namespace KalamburyKlient
                 this.catchwordGetBtn.Invoke(new Action(BeRoomAdmin));
             else
             {
+                this.ClearDesk();
                 this.roomAdmin = true;
+                this.chosenBLACK.Visible = true;
+                this.chosenRED.Visible = true;
+                this.chosenBLUE.Visible = true;
+                this.chosenGREEN.Visible = true;
+                this.chosenYELLOW.Visible = true;
+                this.chosenColorVisualizer.Visible = true;
                 this.clearBtn.Visible = true;
-                this.catchwordFoundBtn.Visible = true;
                 this.catchwordGetBtn.Visible = true;
                 this.drawingDesk.Enabled = true;
             }
@@ -187,9 +199,15 @@ namespace KalamburyKlient
                 this.catchwordGetBtn.Invoke(new Action(BeNormalUser));
             else
             {
+                this.ClearDesk();
                 this.roomAdmin = false;
-                this.clearBtn.Visible = false;
-                this.catchwordFoundBtn.Visible = false;
+                this.chosenBLACK.Visible = false;
+                this.chosenRED.Visible = false;
+                this.chosenBLUE.Visible = false;
+                this.chosenGREEN.Visible = false;
+                this.chosenYELLOW.Visible = false;
+                this.chosenColorVisualizer.Visible = false;
+                this.clearBtn.Visible = false;    
                 this.catchwordGetBtn.Visible = false;
                 this.drawingDesk.Enabled = false;
             }
@@ -281,21 +299,21 @@ namespace KalamburyKlient
             this.gameServer.SendMessage("DESK_CLEAR");
         }
 
-        public void DrawCoordinates(string [] coordinates)
+        public void DrawCoordinates(string [] coordinates, string COLOR)
         {
             for(int i = 1; i < coordinates.Length; i++)
             {
                 string newCoords = coordinates[i];
                 string oldCoords = coordinates[i - 1];
-                this.DrawLine(oldCoords, newCoords);
+                this.DrawLine(oldCoords, newCoords, COLOR);
             }
         }
 
-        private void DrawLine(string first, string second)
+        private void DrawLine(string first, string second,string COLOR)
         {
             if (this.drawingDesk.InvokeRequired)
             {
-                this.drawingDesk.Invoke(new Action<string, string>(this.DrawLine), first, second);
+                this.drawingDesk.Invoke(new Action<string, string,string>(this.DrawLine), first, second,COLOR);
             }
             else
             {
@@ -312,7 +330,7 @@ namespace KalamburyKlient
                         int Second_X = Convert.ToInt32(SecondCoords[0]);
                         int Second_y = Convert.ToInt32(SecondCoords[1]);
 
-                        Pen myPen = new Pen(new SolidBrush(Color.Black),2);
+                        Pen myPen = this.GetChosenPen(COLOR);
                         myGraphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                         myGraphics.DrawLine(myPen, First_X, First_Y,Second_X,Second_y);
                         this.drawingDesk.Refresh();
@@ -323,6 +341,31 @@ namespace KalamburyKlient
                     }
                 }
             }
+        }
+
+        private Pen GetChosenPen(string COLOR)
+        {
+            if (COLOR.Equals("BLACK"))
+            {
+                return new Pen(new SolidBrush(Color.Black), 1);
+            }
+            if (COLOR.Equals("RED"))
+            {
+                return new Pen(new SolidBrush(Color.Red), 1);
+            }
+            if (COLOR.Equals("BLUE"))
+            {
+                return new Pen(new SolidBrush(Color.Blue), 1);
+            }
+            if (COLOR.Equals("GREEN"))
+            {
+                return new Pen(new SolidBrush(Color.Green), 1);
+            }
+            if (COLOR.Equals("YELLOW"))
+            {
+                return new Pen(new SolidBrush(Color.Yellow), 1);
+            }
+            return new Pen(new SolidBrush(Color.Black),1);
         }
 
         private void RefreshDrawingDesk()
@@ -359,6 +402,36 @@ namespace KalamburyKlient
                     }
                 }
             }
+        }
+
+        private void chosenBLACK_Click(object sender, EventArgs e)
+        {
+            this.chosenColorVisualizer.BackColor = Color.Black;
+            this.chosenCOLOR = "BLACK";
+        }
+
+        private void chosenRED_Click(object sender, EventArgs e)
+        {
+            this.chosenColorVisualizer.BackColor = Color.Red;
+            this.chosenCOLOR = "RED";
+        }
+
+        private void chosenBLUE_Click(object sender, EventArgs e)
+        {
+            this.chosenColorVisualizer.BackColor = Color.Blue;
+            this.chosenCOLOR = "BLUE";
+        }
+
+        private void chosenGREEN_Click(object sender, EventArgs e)
+        {
+            this.chosenColorVisualizer.BackColor = Color.Green;
+            this.chosenCOLOR = "GREEN";
+        }
+
+        private void chosenYELLOW_Click(object sender, EventArgs e)
+        {
+            this.chosenColorVisualizer.BackColor = Color.Yellow;
+            this.chosenCOLOR = "YELLOW";
         }
     }
 }
