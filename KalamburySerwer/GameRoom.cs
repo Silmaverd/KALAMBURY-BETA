@@ -18,6 +18,7 @@ namespace KalamburySerwer
         public GameRoom()
         {
             this.STATUS = "OCZEKUJE";
+            this.CATCHWORD = String.Empty;
         }
     }
 }

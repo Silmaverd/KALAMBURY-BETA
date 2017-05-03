@@ -243,8 +243,12 @@ namespace KalamburySerwer
                     gameRoom.PLAYER_COUNT++;
                     gameClient.SetRoomId(gameRoom.ID);
                     this.SendRoomJoinOkMessageAndInitialize(gameClient.GetID(),gameRoom.ID);
+                    Thread.Sleep(100);
                     this.SendUpdateAboutRooms();
+                    Thread.Sleep(100);
                     this.SendUpdateAboutClients();
+                    Thread.Sleep(100);
+                    this.SendRoomUsersUpdate(gameRoom.ID);
                 }
                 else this.SendRoomJoinFailedMessage(userId, "POKÓJ NIE ISTNIEJE!");
             }
@@ -264,6 +268,7 @@ namespace KalamburySerwer
                     Thread.Sleep(500);
                     this.InitializeNewRoomAdmin(ROOM_ID);
                 }
+                Thread.Sleep(100);
                 this.SendRoomUsersUpdate(gameRoom.ID);
                 if (gameRoom.PLAYER_COUNT.Equals(0))
                 {
@@ -271,7 +276,9 @@ namespace KalamburySerwer
                     this.RemoveGameRoomName(gameRoom.NAME);
                     this._rooms.Remove(gameRoom);          
                 }
+                Thread.Sleep(100);
                 this.SendUpdateAboutRooms();
+                Thread.Sleep(100);
                 this.SendUpdateAboutClients();
             }
 
@@ -285,12 +292,15 @@ namespace KalamburySerwer
                 this.SendChatMessage(username + COMMAND[1], ROOM_ID);
 
                 GameRoom gameRoom = this.GetGameRoomByID(ROOM_ID);
+                if (gameRoom.CATCHWORD.Equals(String.Empty))
+                    return;
                 if (gameRoom.CATCHWORD.Equals(COMMAND[1]))
                 {
                     gameClient.UpdateScore();
                     this.SendChatMessage("ODPOWIEDŹ<colon> " + " - "+ COMMAND[1], gameRoom.ID);
                     Thread.Sleep(200);
                     this.InitializeNewRoomAdmin(gameRoom.ID);
+                    gameRoom.CATCHWORD = String.Empty;
                     Thread.Sleep(100);
                     this.SendRoomUsersUpdate(gameRoom.ID);
                     return;
@@ -372,7 +382,14 @@ namespace KalamburySerwer
             int[] userIDs = roomUsersIds.ToArray();
             if (userIDs.Length < 1)
                 return;
-            int newAdminIDindex = randomIndexGenerator.Next(0, userIDs.Length);
+            int newAdminIDindex;
+            while (true)
+            {
+                newAdminIDindex = randomIndexGenerator.Next(0, userIDs.Length);
+                if (userIDs[newAdminIDindex].Equals(gameRoom.ADMIN_ID))
+                    continue;
+                else break;
+            }
             int newAdminID = userIDs[newAdminIDindex];
             gameRoom.ADMIN_ID = newAdminID;
             foreach (GameClient roomClient in this._clients)
