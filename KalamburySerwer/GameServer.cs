@@ -112,11 +112,6 @@ namespace KalamburySerwer
             return true;
         }
 
-        private void SendRoomUsersUpdate(int RID)
-        {
-            
-        }
-
         public void AddNewUserNameToTheList(string userName)
         {
             if (this.clientsList.InvokeRequired)

@@ -34,3 +34,15 @@ D:\GIT Projekty\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.RoomCre
 D:\GIT Projekty\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.csproj.GenerateResource.Cache
 D:\GIT Projekty\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.exe
 D:\GIT Projekty\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.pdb
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\bin\Debug\KalamburyKlient.exe.config
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.exe
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.pdb
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\bin\Debug\KalamburyKlient.exe
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\bin\Debug\KalamburyKlient.pdb
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.csprojResolveAssemblyReference.cache
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.GameWindow.resources
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.LoginWindow.resources
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.MainWindow.resources
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.Properties.Resources.resources
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.RoomCreationWindow.resources
+D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.csproj.GenerateResource.Cache

@@ -105,10 +105,7 @@ namespace KalamburySerwer
                     }
                 }
                 catch (Exception e)
-                {
-                    MessageBox.Show(e.ToString());
-                    continue;
-                }
+                {}
             }
         }
 
@@ -272,7 +269,6 @@ namespace KalamburySerwer
                 this.SendRoomUsersUpdate(gameRoom.ID);
                 if (gameRoom.PLAYER_COUNT.Equals(0))
                 {
-                    this.SendRoomUsersUpdate(gameRoom.ID);
                     this.RemoveGameRoomName(gameRoom.NAME);
                     this._rooms.Remove(gameRoom);          
                 }
@@ -292,7 +288,7 @@ namespace KalamburySerwer
                 this.SendChatMessage(username + COMMAND[1], ROOM_ID);
 
                 GameRoom gameRoom = this.GetGameRoomByID(ROOM_ID);
-                if (gameRoom.CATCHWORD.Equals(String.Empty))
+                if (COMMAND[1].Equals(String.Empty))
                     return;
                 if (gameRoom.CATCHWORD.Equals(COMMAND[1]))
                 {
@@ -325,15 +321,6 @@ namespace KalamburySerwer
                 gameRoom.CATCHWORD = CATCHWORD;
                 roomAdmin.SendMessage("CATCHWORD:"+CATCHWORD+";");
                 this.SendUpdateAboutRooms();
-            }
-            if (COMMAND[0].Equals("CATCHWORD_FOUND"))
-            {
-                string victoriousUser = COMMAND[1];
-                int vicID = this.GetIdByUserName(victoriousUser);
-                GameClient vicUser = this.GetGameClientById(vicID);
-                GameClient roomAdmin = this.GetGameClientById(userId);
-                vicUser.UpdateScore();
-                this.SendRoomUsersUpdate(roomAdmin.GetRoomId());
             }
             if (COMMAND[0].Equals("DESK_CLEAR"))
             {

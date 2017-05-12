@@ -76,11 +76,6 @@ namespace KalamburyKlient
             this.drawingDesk.Refresh();
         }
 
-        private void DrawRecievedCoordinates(Coordinate[] coordinates)
-        {
-            //TODO
-        }
-
         private void SendCoordinates()
         {
             string COMMAND = String.Empty;

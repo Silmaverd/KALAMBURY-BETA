@@ -104,7 +104,7 @@ namespace KalamburyKlient
             while (true)
             {
                 if (!this.gameServer.Connected())
-                    break; ;
+                    break;
                 if (!this.gameServer.DataAvalibleToRecieve())
                 {
                     Thread.Sleep(50);
