@@ -10,12 +10,12 @@ namespace KalamburyKlient
 {
     class GameManager
     {
-        private GameServer gameServer;
-        private ListBox activePlayers;
-        private ListBox activeGameRooms;
-        private Thread serverListeningThread;
-        private GameWindow gameWindow;
-        private Thread gameThread;
+        private GameServer gameServer;          // INSTANCJA SERWERA GRY
+        private ListBox activePlayers;          // LISTA USERNAME AKTYWNYCH GRACZY 
+        private ListBox activeGameRooms;        // LISTA NAZW AKTYWNYCH POKOI GRY
+        private Thread serverListeningThread;   // WĄTEK NASŁUCHUJĄCY NA KOMUNIKACJĘ Z SERWEREM
+        private GameWindow gameWindow;          // GLOWNE OKNO GRY, TUTAJ RYSUJEMY ORAZ ODGANUJEMY HASŁA
+        private Thread gameThread;              // WATEK W KTÓRYM gameWindow JEST OBSŁUGIWANE
 
         private string userName;
         private string roomName;
@@ -35,6 +35,7 @@ namespace KalamburyKlient
             this.gameThread = new Thread(this.StartGame);
         }
 
+        // INICJALIZACJA POŁĄCZENIA Z SERWEREM
         public void Connect(string userName, string ipAddress, int port)
         {
             this.gameServer.Connect(userName,ipAddress,port);
@@ -47,6 +48,7 @@ namespace KalamburyKlient
             this.gameServer.Disconnect();
         }
 
+        // REQUEST DO SERWERA O STWORZENIE POKOJU GRY
         public void CreateRoom()
         {
             if (!this.gameServer.Connected())
@@ -57,6 +59,7 @@ namespace KalamburyKlient
             this.SetGameRoomName(roomCreatingWindow.ROOM_NAME);
         }
 
+        // PROŚBA O DOŁĄCZENIE DO ISTNIEJĄCEGO POKOJU
         public void JoinRoom(string RoomName)
         {
             if (!this.gameServer.Connected())
@@ -65,13 +68,14 @@ namespace KalamburyKlient
             this.gameServer.SendMessage("ROOM_JOIN:" + this.roomName);
         }
 
+        // PROŚBA O WYJŚCIE Z POKOJU
         public void ExitFromGameRoom()
         {
             if (!this.gameServer.Connected())
                 return;
             this.gameServer.SendMessage("ROOM_EXIT");
         }
-
+        // METODA AKTUALIZUJĄCA LISTĘ USERNAME AKTYWNYCH UŻYTKOWNIKÓW
         public void UpdateUsers()
         {
             if (this.activePlayers.InvokeRequired)
@@ -84,7 +88,7 @@ namespace KalamburyKlient
                     this.activePlayers.Items.Add(this._userNames[i]);
             }
         }
-
+        // METODA AKTUALIZUJĄCA LISTĘ ROOMNAME ISTNIEJĄCYCH POKOI
         public void UpdateRooms()
         {
             if (this.activeGameRooms.InvokeRequired)
@@ -98,7 +102,7 @@ namespace KalamburyKlient
                     this.activeGameRooms.Items.Add(this._roomNames[i]);
             }
         }
-
+        // METODA NASŁUCHUJĄCA NA WIADOMOŚCI OD SERWERA
         public void ListenToServerMessages()
         {
             while (true)
@@ -111,10 +115,13 @@ namespace KalamburyKlient
                     continue;
                 }
                 string RAW_COMMAND = this.gameServer.RecieveMessage();
+                // PODZIEL OTRZYMANY ZESTAW KOMEND WZGLĘDEM ZNAKU ';'
                 string[] ALL_COMMANDS = this.GetAllCommandsFromRaw(RAW_COMMAND);
+                // DLA KAZDEJ Z KOMEND WYDOBĄDŹ POLECENIE ORAZ PARAMETRY PO ZNAKU ':'
                 foreach(string PENDING_COMMAND in ALL_COMMANDS)
                 {
                     string[] COMMAND = this.ConvertToProperCommandForm(PENDING_COMMAND);
+                    // ORAZ KAZDA Z OSOBNA ZIN TERPRETUJ
                     this.InterpeteCommand(COMMAND);
                 }
             }
@@ -139,6 +146,7 @@ namespace KalamburyKlient
             return COMMAND_RAW.Split(':');
         }
 
+        // METODA INTERPRETUJĄCA OTRZYMANE OD SERWERA KOMENDY
         private void InterpeteCommand(string [] COMMAND)
         {
             string commandHeader = COMMAND[0];
@@ -159,9 +167,11 @@ namespace KalamburyKlient
             {
                 this.UpdateChatRoom(COMMAND[1]);
             }
+            // OTRZYMANO KOORDYNATY DO NARYSOWANIA
             if (commandHeader.Equals("COORDINATE"))
             {
                 StringBuilder coordinates = new StringBuilder();
+                // OD 2 BO [0]->COORDINATE, [1]->COLOR
                 for(int i = 2; i < COMMAND.Length; i++) {
                     coordinates.Append(COMMAND[i] + ":");
                 }
@@ -192,6 +202,7 @@ namespace KalamburyKlient
                 this._userNames = COMMAND;
                 this.UpdateUsers();   
             }
+            // OTRZYMANO CATCHWORD
             if (commandHeader.Equals("CATCHWORD"))
             {
                 string CATCHWORD = COMMAND[1];
@@ -202,11 +213,13 @@ namespace KalamburyKlient
                 this._roomNames = COMMAND;
                 this.UpdateRooms();
             }
+            // OTRZYMANO INFORMACJE O BYCIU ADMINEM
             if (commandHeader.Equals("ROOM_ADMIN"))
             {
                 this.gameWindow.BeRoomAdmin();
                 this.gameWindow.ClearCatchWord();
             }
+            // OTRZYMANO INFORMACJE O BYCIU ZGADUJĄCYM
             if (commandHeader.Equals("ROOM_USER"))
             {
                 this.gameWindow.BeNormalUser();
@@ -227,14 +240,14 @@ namespace KalamburyKlient
         {
             this.gameWindow.DrawCoordinates(coordinates.Split(':'),COLOR);
         }
-
+        // METODA WŁĄCZAJĄCA GAMEROOM ORAZ ROZPOCZYNAJĄCA ROZGRYWKĘ
         private void StartGame()
         {
             this.gameWindow = new GameWindow(this.userName, this.roomName);
             this.gameWindow.SetServer(this.gameServer);
             this.gameWindow.ShowDialog();
         }
-
+        // ZAMYKANIE DZIAŁAJĄCYCH WĄTKÓW
         public void StopListening()
         {
             if (this.serverListeningThread.IsAlive)

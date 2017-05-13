@@ -36,13 +36,16 @@ namespace KalamburyKlient
             this.coordinatesToSend = new List<Coordinate>();
         }
 
+        //  STWORZENIE KOMENDY Z KOORDYNATÓW POBRANYCH PRZEZ PRZECIĄGNIĘCIE MYSZĄ PO PANELU RYSOWANIA.
         private string GetSendCoordinatesCommand()
         {
             StringBuilder coordinatesCommand = new StringBuilder("COORDINATE:"+this.chosenCOLOR+":");
-            int MaxCoords = 100;
-            int CoordsToSend = 0;
+            int MaxCoords = 100;    // MAX KOORDYNATÓW W JEDNEJ PACZCE.
+            int CoordsToSend = 0;   
             for(int i = 0; i < coordinatesToSend.Count; i+=3) {
                 Coordinate coordinate = coordinatesToSend.ElementAt(i);
+                // POBRANIE CO TRZECIĄ PARĘ X,Y ODZNACZENIE ICH DO USUNIĘCIA ORAZ DOPISANIE 
+                // DO KOMENDY W ROZUMIANYM PRZEZ SERWER FORMACIE
                 if (i > 0)
                 {
                     coordinatesToSend.ElementAt(i - 1).toRemove = true;
@@ -54,6 +57,7 @@ namespace KalamburyKlient
                 if (CoordsToSend.Equals(MaxCoords))
                     break;
             }
+            // USINIĘCIE ZAZNACZONYCH KOORDYNATÓW
             for(int i = 0; i < this.coordinatesToSend.Count; i++)
             {
                 if (coordinatesToSend.ElementAt(i).toRemove)
@@ -96,7 +100,7 @@ namespace KalamburyKlient
             this.gameServer.SendMessage("ROOM_EXIT");
             this.Hide();
         }
-
+        // AKTUALIZACJA LISTY GRACZY W DANYM GAME_ROOM
         public void UpdateGameRoomUsers(string [] gameRoomUsers)
         {
             this.ClearPlayers();
@@ -105,7 +109,7 @@ namespace KalamburyKlient
                 this.AddPlayerUsername(gameRoomUsers[i]);
             }
         }
-
+        // WYŚWIETLENIE OTRZYMANEJ WIADOMOŚCI NA CHAT_ROOM
         public void UpdateChatRoom(string message)
         {
             if (this.chatRoom.InvokeRequired)
@@ -142,7 +146,7 @@ namespace KalamburyKlient
         {
             this.ExitGameRoom();
         }
-
+        // WYSŁANIE WIADOMOŚCI NA CHACIE 
         private void chatSendMessageBtn_Click(object sender, EventArgs e)
         {
             string message = this.chatMessage.Text;
@@ -153,21 +157,22 @@ namespace KalamburyKlient
                 this.gameServer.SendMessage("CHAT_MESSAGE:" + safeMessage);
             } 
         }
-
+        // KONWERSJA ZNAKÓW :, ; NA <colon> oraz <semicolon>
         private string ConvertToSafeMessageFormat(string toConvert)
         {
             string convertedMessage = toConvert.Replace(":", "<colon>");
             convertedMessage = convertedMessage.Replace(";", "<semicolon>");
             return convertedMessage;
         }
-
+        // KONWERSJA ODWROTNA DO POWYŻSZEJ
         private string ConvertToDisplayableMessage(string toConvert)
         {
             string convertedMessage = toConvert.Replace("<colon>", ":");
             convertedMessage = convertedMessage.Replace("<semicolon>", ";");
             return convertedMessage;
         }
-
+        // METODA WYWOŁYWANA W MOMENCIE OTRZYMANIA OD SERWERA WIADOMOŚĆI
+        // ROOM_ADMIN, USTAWIA ONA KOMPONENTY DO RYSOWANIA ORAZ LOSOWANIA HASŁA NA WIDOCZNE
         public void BeRoomAdmin()
         {
             if (this.catchwordGetBtn.InvokeRequired)
@@ -187,7 +192,7 @@ namespace KalamburyKlient
                 this.drawingDesk.Enabled = true;
             }
         }
-
+        // METODA ODWROTNA DO BeRoomAdmin()
         public void BeNormalUser()
         {
             if (this.catchwordGetBtn.InvokeRequired)
@@ -221,7 +226,7 @@ namespace KalamburyKlient
                 }
             }
         }
-
+        // USTAWIENIE OTRZYMANEGO OD SERWERA HASŁA KALAMBUR
         public void SetCatchWord(string catchWord)
         {
             if (this.catchwordField.InvokeRequired)
@@ -239,13 +244,13 @@ namespace KalamburyKlient
             }
             else this.catchwordField.Text = "";
         }
-
+        // POBRANIE HASŁA Z SERWERA
         private void catchwordGetBtn_Click(object sender, EventArgs e)
         {
             this.gameServer.SendMessage("GET_CATCHWORD");
             this.catchwordGetBtn.Visible = false;
         }
-
+        // WCISNIECIE PRZYCISKU MYSZY, ROZPOCZĘCIA POBIERANIA KOORDYNATÓW
         private void drawingDesk_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button != MouseButtons.Left || !this.roomAdmin)
@@ -253,12 +258,13 @@ namespace KalamburyKlient
             if (!mousePressed)
                 this.mousePressed = true;
         }
+        // PUSZCZENIE PRZYCISKU MYSZY, KONIEC POBIERANIA KOORDYNATÓW
         private void drawingDesk_MouseUp(object sender, MouseEventArgs e)
         {
             this.mousePressed = false;
             this.SendCoordinates();
         }
-
+        // PRZECIAGANIE WCIŚNIĘTEJ MYSZY, ZAPISYWANIE KOORDYNATÓW DO LISTY
         private void drawingDesk_MouseMove(object sender, MouseEventArgs e)
         {
             if (this.mousePressed) {
@@ -267,11 +273,6 @@ namespace KalamburyKlient
                 newCoord.Y = e.Y;
                 this.coordinatesToSend.Add(newCoord);
             }
-        }
-
-        private void catchwordFoundBtn_Click(object sender, EventArgs e)
-        {
-
         }
 
         public void ClearDesk()
@@ -294,6 +295,9 @@ namespace KalamburyKlient
             this.gameServer.SendMessage("DESK_CLEAR");
         }
 
+        // METODA POBIERAJĄCA ZESTAW KOORDYNATÓW DO NARYSOWANIA ORAZ KOLOR,
+        // POBIERA JE PARAMI I PRZEKAZUJE JE METODZIE DrawLine(), KTÓRA RYSUJE MIĘDZY NIMI LINIĘ
+        // O PODANYM KOLORZE
         public void DrawCoordinates(string [] coordinates, string COLOR)
         {
             for(int i = 1; i < coordinates.Length; i++)
@@ -318,6 +322,8 @@ namespace KalamburyKlient
                 {
                     try
                     {
+                        // KOORDYNATY MAJĄ POSTAĆ "X,Y" WIĘC ŻEBY ODCZYTAĆ JE JAKO LICZBY CAŁIKOWITE,
+                        // TRZEBA POZBYĆ SIĘ ZNAKU PRZECINKA ORAZ ODPOWIEDNIO PRZYPISAĆ DANE
                         string[] FirstCoords =  first.Split(',');
                         string[] SecondCoords = second.Split(',');
                         int First_X =  Convert.ToInt32(FirstCoords[0]);
@@ -338,6 +344,8 @@ namespace KalamburyKlient
             }
         }
 
+        // METODA POBIERA KOLOR NP. "RED" I ZWRACA ODPOWIEDNI PĘDZEL
+        // WYKORZYSTANE W METODZIE DrawLine()
         private Pen GetChosenPen(string COLOR)
         {
             if (COLOR.Equals("BLACK"))
@@ -372,33 +380,7 @@ namespace KalamburyKlient
             else this.drawingDesk.Refresh();
         }
 
-        private void DrawCoordinate(string coordinates)
-        {
-            if (this.drawingDesk.InvokeRequired)
-            {
-                this.drawingDesk.Invoke(new Action<string>(this.DrawCoordinate), coordinates);
-            }
-            else
-            {
-                using (Graphics myGraphics = Graphics.FromImage(this.drawingDesk.Image))
-                {
-                    if (coordinates.Equals(String.Empty))
-                        return;
-                    try
-                    {
-                        string[] coords = coordinates.Split(',');
-                        Pen myPen = new Pen(new SolidBrush(Color.Black));
-                        int X = Convert.ToInt32(coords[0]);
-                        int Y = Convert.ToInt32(coords[1]);
-                        myGraphics.DrawEllipse(myPen, X, Y, 3, 3);
-                    }catch(Exception exception)
-                    {
-                        //BLAD KOMENDY ;(
-                    }
-                }
-            }
-        }
-
+        // METODY USTAWIAJĄCE AKTUALNIE WYBRANY DO RYSOWANIA KOLOR
         private void chosenBLACK_Click(object sender, EventArgs e)
         {
             this.chosenColorVisualizer.BackColor = Color.Black;

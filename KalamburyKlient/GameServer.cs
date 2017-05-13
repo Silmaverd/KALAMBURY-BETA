@@ -33,6 +33,7 @@ namespace KalamburyKlient
                 return false;
             }
         }
+        // ODBIERANIE WIADOMOŚCI Z SOCKETU SERWERA
         public string RecieveMessage()
         {
             if (!serverSocket.Connected)
@@ -41,7 +42,7 @@ namespace KalamburyKlient
             this.serverSocket.Receive(messageBytes);
             return ASCIIEncoding.UTF8.GetString(messageBytes);
         }
-
+        // WYSŁANIE WIADOMOŚCI NA SOCKET SERWERA
         public void SendMessage(string message)
         {
             if (!serverSocket.Connected)
@@ -56,7 +57,7 @@ namespace KalamburyKlient
             this.SendMessage("USER_DISCONNECTED");
             this.serverSocket.Close();
         }
-            
+        // METODA MÓWIĄCA O TYM, CZY W BUFORZE SOCKETU SERWERA ZNAJDUJĄ SIĘ BAJTY DO ODBIORU
         public bool DataAvalibleToRecieve()
         {
             return this.serverSocket.Available > 0;
