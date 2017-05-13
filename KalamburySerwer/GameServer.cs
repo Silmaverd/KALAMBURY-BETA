@@ -68,7 +68,7 @@ namespace KalamburySerwer
         {
             return this.mainServerSocket.Accept();
         }
-
+        // METODA CZEKAJĄCA NA POŁĄCZENIE SIĘ KLIENTA
         private void WaitForClientsToConnect()
         {
             while (true)
@@ -80,6 +80,7 @@ namespace KalamburySerwer
                 }
                 Socket clientSocket = this.GetNewClientSocket();
                 byte[] username = new byte[256];
+                // POBRANIE USERNAME
                 clientSocket.Receive(username);
                 string usernameConverted = ASCIIEncoding.UTF8.GetString(username);
                 usernameConverted = usernameConverted.Substring(0, usernameConverted.IndexOf('\0'));

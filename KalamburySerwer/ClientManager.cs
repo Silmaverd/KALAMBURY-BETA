@@ -13,16 +13,16 @@ namespace KalamburySerwer
 {
     class ClientManager
     {
-        private List<int> _reservedClientIDs;
-        private List<int> _reservedRoomIDs;
-        private List<string> _catchWords;
-        private List<GameClient> _clients;
-        private List<GameRoom> _rooms;
-        private bool _clientsModyfying;
-        private Thread _commandListenerThread;
-        private ListBox _activeClients;
-        private ListBox _existingRooms;
-        private int _amountOfActiveClients;
+        private List<int> _reservedClientIDs;       // LISTA ZAREZERWOWANYCH ID'S DLA KLIENTÓW
+        private List<int> _reservedRoomIDs;         // LISTA ZARESERWOWANYCH ID,S DLA POKOI GIER
+        private List<string> _catchWords;           // LISTA HASEŁ DO WYLOSOWANIA DLA KLIENTÓW
+        private List<GameClient> _clients;          // LISTA INSTANCJI KLIENTÓW W SERWERZE
+        private List<GameRoom> _rooms;              // LISTA INSTANCJI POKOI W SERWERZE
+        private bool _clientsModyfying;             // DO TEJ PORY NIE MAM POJĘCIA PO CO MI TO BYŁO, ALE NIE RUSZAĆ !
+        private Thread _commandListenerThread;      // WĄTEK NASŁUCHUJĄCY NA KOMUNKACJĘ KLIENTÓW Z SERWEREM
+        private ListBox _activeClients;             // LISTA USERNAME AKTYWNYCH KLIENTÓW
+        private ListBox _existingRooms;             // LISTA ROOMNAME ISTNIEJĄCYCH POKOI
+        private int _amountOfActiveClients;         // LICZBA AKTUALNIE AKTYWNYCH GRACZY
 
         public void AddNewClient(Socket clientSocket, string username)
         {
@@ -37,6 +37,7 @@ namespace KalamburySerwer
             this.SendUpdateAboutRooms();
             this.SetClientsModyfyingFalse();
         }
+        // METODA LOSUJĄCA NIEZAREZERWOWANE PRZEZ ŻADNEGO KLIENTA ID
         private int GetFreeClientID()
         {
             Random randomID = new Random();
@@ -50,6 +51,7 @@ namespace KalamburySerwer
                 }
             }
         }
+        // JAK WYŻEJ, TYLKO DLA POKOI
         private int GetFreeRoomID()
         {
             while (true)
@@ -83,7 +85,7 @@ namespace KalamburySerwer
             }
             else this._activeClients.Items.Remove(username);
         }
-
+        // METODA NASŁUCHUJĄCA KOMUNIKACJI KLIENTÓW Z SERWEREM
         public void ListenToClientsMessages()
         {
             while (true)
@@ -97,10 +99,14 @@ namespace KalamburySerwer
                         GameClient actualGameClient = this._clients.ElementAt(i);
                         if (!actualGameClient.DataAvalible())
                             continue;
+                        // POBRANIE KOMENDY Z BUFORA
                         string clientMessage = actualGameClient.RecieveMessage();
                         Command command = new Command();
+                        // PRZYPISANIE KOMENDY
                         command.COMMAND = clientMessage;
+                        // ORAZ ID UŻYTKOWNIKA, OD KTÓREGO JĄ OTRZYMANO
                         command.ID = actualGameClient.GetID();
+                        // INTERPERETACJA 
                         this.InterpretTheCommand(command);
                     }
                 }
@@ -108,7 +114,8 @@ namespace KalamburySerwer
                 {}
             }
         }
-
+        // JEZELI KTOŚ SIĘ ZALOGOWAŁ, LUB WYLOGOWAŁ TO TA METODA 
+        // SLUZY TO WYSŁANIA WSZYSTKIM OBECNYM LISTY AKTYWNYCH GRACZY
         private void SendUpdateAboutClients()
         {
             string Items = String.Empty;
@@ -124,7 +131,7 @@ namespace KalamburySerwer
                 client.SendMessage("USERS_UPDATE" + Items+";");
             }
         }
-
+        // JAK WYZEJ TYLKO DLA POKOI
         private void SendUpdateAboutRooms()
         {
             string Items = String.Empty;
@@ -142,7 +149,8 @@ namespace KalamburySerwer
                 client.SendMessage("ROOMS_UPDATE" + Items+";");
             }
         }
-
+        // TA METODA NATOMIAST AKTUALIZUJE AKTYWNYCH GRACZY, ALE TYLKO DLA DANEGO GAME_ROOM, 
+        // W KTÓRYM ZNAJDUJE SIĘ GRACZ
         private void SendRoomUsersUpdate(int RID)
         {
             foreach(GameClient gameClient in this._clients)
@@ -164,18 +172,20 @@ namespace KalamburySerwer
             gameRoomUsers.Append(";");
             return gameRoomUsers.ToString();
         }
+        // KONWERSJA SUROWEJ KONENDY NA TĄ, ROZUMIANĄ PRZEZ INTERPRETER,
+        // TAK SAMO JAK W APLIKACJI KLIENCKIEJ, POLECENIE ORAZ PARAMETRY ODSEPAROWANE SĄ ZNAKIEM ":"
         public string [] GetCommandInRightFormat(Command rawCommand) 
         {
             string COMMAND = rawCommand.COMMAND.Substring(0, rawCommand.COMMAND.IndexOf('\0'));
             return COMMAND.Split(':');
         }
-
+        // WYSLIJ USEROWI INFORMACJE O TYM, ŻE JEST ADMINEM
         public void SendAdminInformation(int userId)
         {
             GameClient roomAdmin = this.GetGameClientById(userId);
             roomAdmin.SendMessage("ROOM_ADMIN;");
         }
-
+        // METODA INTERPRETUJĄCA PODANĄ KOMENDĘ
         private void InterpretTheCommand(Command userCommand)
         {
             string []COMMAND = this.GetCommandInRightFormat(userCommand);
@@ -259,6 +269,8 @@ namespace KalamburySerwer
                 this._reservedRoomIDs.Remove(ROOM_ID);
                 gameClient.SetRoomId(0);
                 gameRoom.PLAYER_COUNT--;
+                // JEZELI OSOBA OPUSZCZAJĄCA GAMEROOM JEST JEGO ADMINEM
+                // TO WYLOSUJ NOWEGO
                 if (gameRoom.ADMIN_ID.Equals(gameClient.GetID()))
                 {
                     gameRoom.STATUS = "OCZEKUJE";
@@ -267,6 +279,8 @@ namespace KalamburySerwer
                 }
                 Thread.Sleep(100);
                 this.SendRoomUsersUpdate(gameRoom.ID);
+                // JEZELI PO OPUSCZENIU POKOJU LICZBA GRACZY W NIM SPADNIE DO 0
+                // TO USUN DANY GAMEROOM
                 if (gameRoom.PLAYER_COUNT.Equals(0))
                 {
                     this.RemoveGameRoomName(gameRoom.NAME);
@@ -303,6 +317,7 @@ namespace KalamburySerwer
                 }
 
                 string[] answerSplitted = COMMAND[1].Split(' ');
+                // TO TAK SREDNIO DZIALA
                 foreach(string answer in answerSplitted)
                 {
                     if(gameRoom.CATCHWORD.Contains(answer) && answer.Length >= 5)
@@ -312,6 +327,7 @@ namespace KalamburySerwer
                     }
                 }
             }
+            // ZAPYTANIE O HASŁO
             if (COMMAND[0].Equals("GET_CATCHWORD"))
             {
                 GameClient roomAdmin = this.GetGameClientById(userId);
@@ -334,6 +350,7 @@ namespace KalamburySerwer
                     }
                 }
             }
+            // KOORDYNATÓW NIE INTERPRETUJEMY, TYLKO ROZSYŁAMY DO WSZYSTKICH POZOSTAŁYCH W GAMEROOM
             if (COMMAND[0].Equals("COORDINATE"))
             {
                 GameClient adminClient = this.GetGameClientById(userId);
@@ -353,7 +370,7 @@ namespace KalamburySerwer
                 }
             }
         }
-
+        // METODA INICJALIZUJĄCA NOWEGO ADMINA DLA DANEGO GAMEROOMU
         private void InitializeNewRoomAdmin(int RID)
         {
             GameRoom gameRoom = this.GetGameRoomByID(RID);
@@ -488,7 +505,7 @@ namespace KalamburySerwer
             this._commandListenerThread = new Thread(this.ListenToClientsMessages);
             this.InitializeCatchWordList();
         }
-
+        // LOSOWANIE HASŁA
         private string GetRandomCatchWord()
         {
             Random randomNumber = new Random();
@@ -496,7 +513,7 @@ namespace KalamburySerwer
             int randomCatchwordIndex = randomNumber.Next(0, cathwords.Length);
             return cathwords.ElementAt(randomCatchwordIndex);
         }
-
+        // INICJALIZACJA LISTY HASEŁ, POBRANIE ICH Z PLIKU 
         private void InitializeCatchWordList()
         {
             try{

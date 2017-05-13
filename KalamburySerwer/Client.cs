@@ -26,6 +26,7 @@ namespace KalamburySerwer
             this._clientSocket.ReceiveTimeout = 200;
             this.status = "W menu.";
         }
+        // METODA SPRAWDZAJĄCA, CZY W SOCKECIE KLIENTA SĄ BAJTY DO ODBIORU
         public bool Avalible()
         {
             return this._clientSocket.Available > 0;
@@ -55,7 +56,7 @@ namespace KalamburySerwer
         {
             this._clientSocket.Close();
         }
-
+        // METODA WYSYŁĄJĄCA WIADOMOŚĆ NA SOCKET KLIENTA
         public bool SendMessage(string message)
         {
             if (!this._clientSocket.Connected)
@@ -70,7 +71,7 @@ namespace KalamburySerwer
                 return false;
             }
         }
-
+        // METODA POBIERAJĄCA BAJTY Z BUFORA SOCKETU KLIENTA
         public string RecieveMessage()
         {
             byte[] message = new byte[24000];
