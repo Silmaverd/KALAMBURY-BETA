@@ -55,7 +55,7 @@ namespace KalamburyKlient
                 return;
             RoomCreationWindow roomCreatingWindow = new RoomCreationWindow();
             roomCreatingWindow.ShowDialog();
-            this.gameServer.SendMessage("ROOM_CREATE:" + roomCreatingWindow.ROOM_NAME);
+            this.gameServer.SendMessage("ROOM_CREATE:" + roomCreatingWindow.ROOM_NAME+":"+ roomCreatingWindow.TIMER_VALUE);
             this.SetGameRoomName(roomCreatingWindow.ROOM_NAME);
         }
 
@@ -228,6 +228,10 @@ namespace KalamburyKlient
             if (commandHeader.Equals("DESK_CLEAR"))
             {
                 this.gameWindow.ClearDesk();
+            }
+            if (commandHeader.Equals("TIMER_UPDATE"))
+            {
+                this.gameWindow.timerUpdate(COMMAND[1]);
             }
         }
 

@@ -212,13 +212,14 @@ namespace KalamburySerwer
                 {
                     GameClient client = this.GetGameClientById(userId);
                     client.SetStatus("W grze!");
-                    GameRoom newGameRoom = new GameRoom();
+                    GameRoom newGameRoom = new GameRoom(this);
                     newGameRoom.NAME = roomName;
                     newGameRoom.ID = this.GetFreeRoomID();
                     newGameRoom.PLAYER_COUNT = 1;
                     newGameRoom.ADMIN_ID = client.GetID();
-                    this._rooms.Add(newGameRoom);
-                    this.AddNewGameRoomName(newGameRoom.NAME);
+                    newGameRoom.timeForAnswer = Int32.Parse(COMMAND[2]);
+                    newGameRoom.addClient(client);
+                    this.AddNewGameRoom(newGameRoom);
                     this.SendRoomAcceptMsgAndInitialize(userId, newGameRoom.ID);
                     Thread.Sleep(1000);
                     this.SendAdminInformation(client.GetID());
@@ -249,6 +250,7 @@ namespace KalamburySerwer
                     gameClient.SetStatus("W grze!");
                     gameRoom.PLAYER_COUNT++;
                     gameClient.SetRoomId(gameRoom.ID);
+                    gameRoom.addClient(gameClient);
                     this.SendRoomJoinOkMessageAndInitialize(gameClient.GetID(),gameRoom.ID);
                     Thread.Sleep(100);
                     this.SendUpdateAboutRooms();
@@ -269,6 +271,7 @@ namespace KalamburySerwer
                 this._reservedRoomIDs.Remove(ROOM_ID);
                 gameClient.SetRoomId(0);
                 gameRoom.PLAYER_COUNT--;
+                gameRoom.removeClient(gameClient);
                 // JEZELI OSOBA OPUSZCZAJĄCA GAMEROOM JEST JEGO ADMINEM
                 // TO WYLOSUJ NOWEGO
                 if (gameRoom.ADMIN_ID.Equals(gameClient.GetID()))
@@ -283,7 +286,7 @@ namespace KalamburySerwer
                 // TO USUN DANY GAMEROOM
                 if (gameRoom.PLAYER_COUNT.Equals(0))
                 {
-                    this.RemoveGameRoomName(gameRoom.NAME);
+                    this.RemoveGameRoom(gameRoom);
                     this._rooms.Remove(gameRoom);          
                 }
                 Thread.Sleep(100);
@@ -307,7 +310,8 @@ namespace KalamburySerwer
                 if (gameRoom.CATCHWORD.Equals(COMMAND[1]))
                 {
                     gameClient.UpdateScore();
-                    this.SendChatMessage("ODPOWIEDŹ<colon> " + " - "+ COMMAND[1], gameRoom.ID);
+                    this.SendChatMessage("ODPOWIEDŹ<colon> " + " - " + COMMAND[1], gameRoom.ID);
+                    gameRoom.resetTimer();
                     Thread.Sleep(200);
                     this.InitializeNewRoomAdmin(gameRoom.ID);
                     gameRoom.CATCHWORD = String.Empty;
@@ -315,7 +319,7 @@ namespace KalamburySerwer
                     this.SendRoomUsersUpdate(gameRoom.ID);
                     return;
                 }
-
+                
                 string[] answerSplitted = COMMAND[1].Split(' ');
                 // TO TAK SREDNIO DZIALA
                 foreach(string answer in answerSplitted)
@@ -333,6 +337,7 @@ namespace KalamburySerwer
                 GameClient roomAdmin = this.GetGameClientById(userId);
                 GameRoom gameRoom = this.GetGameRoomByID(roomAdmin.GetRoomId());
                 gameRoom.STATUS = "W GRZE!";
+                gameRoom.startTimer();
                 string CATCHWORD = this.GetRandomCatchWord();
                 gameRoom.CATCHWORD = CATCHWORD;
                 roomAdmin.SendMessage("CATCHWORD:"+CATCHWORD+";");
@@ -614,23 +619,43 @@ namespace KalamburySerwer
             this._clientsModyfying = false;
         }
 
-        private void AddNewGameRoomName(string gameRoomName)
+        private void AddNewGameRoom(GameRoom gameRoom)
         {
             if (this._existingRooms.InvokeRequired)
             {
-                this._existingRooms.Invoke(new Action<string>(AddNewGameRoomName), gameRoomName);
+                this._existingRooms.Invoke(new Action<GameRoom>(AddNewGameRoom), gameRoom);
             }
-            else this._existingRooms.Items.Add(gameRoomName);
+            else
+            {
+                this._existingRooms.Items.Add(gameRoom.NAME);
+                this._rooms.Add(gameRoom);
+            }
         }
 
-        private void RemoveGameRoomName(string gameRoomName)
+        private void RemoveGameRoom(GameRoom gameRoom)
         {
             if (this._existingRooms.InvokeRequired)
             {
-                this._existingRooms.Invoke(new Action<string>(RemoveGameRoomName), gameRoomName);
+                this._existingRooms.Invoke(new Action<GameRoom>(RemoveGameRoom), gameRoom);
             }
-            else this._existingRooms.Items.Remove(gameRoomName);
+            else
+            {
+                this._existingRooms.Items.Remove(gameRoom.NAME);
+                this._rooms.Remove(gameRoom);
+            }
         }
 
+        public void PassphraseNotFound(int adminId)
+        {
+            GameClient client = this.GetGameClientById(adminId);
+            GameRoom room = this.GetGameRoomByID(client.GetRoomId());
+
+            room.resetTimer();
+            Thread.Sleep(200);
+            this.InitializeNewRoomAdmin(room.ID);
+            room.CATCHWORD = String.Empty;
+            Thread.Sleep(100);
+            this.SendRoomUsersUpdate(room.ID);
+        }
     }
 }

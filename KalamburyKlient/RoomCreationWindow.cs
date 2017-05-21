@@ -13,6 +13,8 @@ namespace KalamburyKlient
     public partial class RoomCreationWindow : Form
     {
         public string ROOM_NAME { set; get; }
+        public string TIMER_VALUE { set; get; }
+
         public RoomCreationWindow()
         {
             InitializeComponent();
@@ -21,6 +23,7 @@ namespace KalamburyKlient
         private void submitBtn_Click(object sender, EventArgs e)
         {
             this.ROOM_NAME = this.roomName.Text;
+            this.TIMER_VALUE = this.timeToAnswer.Text;
             this.Hide();
         }
     }

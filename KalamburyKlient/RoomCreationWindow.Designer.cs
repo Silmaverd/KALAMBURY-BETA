@@ -31,6 +31,8 @@
             this.LBL_ROOM_NAME = new System.Windows.Forms.Label();
             this.roomName = new System.Windows.Forms.TextBox();
             this.submitBtn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.timeToAnswer = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // LBL_ROOM_NAME
@@ -53,7 +55,7 @@
             // 
             this.submitBtn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.submitBtn.ForeColor = System.Drawing.Color.Green;
-            this.submitBtn.Location = new System.Drawing.Point(271, 39);
+            this.submitBtn.Location = new System.Drawing.Point(271, 85);
             this.submitBtn.Name = "submitBtn";
             this.submitBtn.Size = new System.Drawing.Size(121, 33);
             this.submitBtn.TabIndex = 2;
@@ -61,12 +63,30 @@
             this.submitBtn.UseVisualStyleBackColor = true;
             this.submitBtn.Click += new System.EventHandler(this.submitBtn_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(13, 52);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(251, 16);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Podaj ilość sekund na odpowiedź:";
+            // 
+            // timeToAnswer
+            // 
+            this.timeToAnswer.Location = new System.Drawing.Point(271, 45);
+            this.timeToAnswer.Name = "timeToAnswer";
+            this.timeToAnswer.Size = new System.Drawing.Size(121, 23);
+            this.timeToAnswer.TabIndex = 4;
+            // 
             // RoomCreationWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(224)))), ((int)(((byte)(192)))));
-            this.ClientSize = new System.Drawing.Size(414, 75);
+            this.ClientSize = new System.Drawing.Size(414, 130);
+            this.Controls.Add(this.timeToAnswer);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.submitBtn);
             this.Controls.Add(this.roomName);
             this.Controls.Add(this.LBL_ROOM_NAME);
@@ -86,5 +106,7 @@
         private System.Windows.Forms.Label LBL_ROOM_NAME;
         private System.Windows.Forms.TextBox roomName;
         private System.Windows.Forms.Button submitBtn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox timeToAnswer;
     }
 }
