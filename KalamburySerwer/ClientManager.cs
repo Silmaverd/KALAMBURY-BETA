@@ -396,7 +396,7 @@ namespace KalamburySerwer
             while (true)
             {
                 newAdminIDindex = randomIndexGenerator.Next(0, userIDs.Length);
-                if (userIDs[newAdminIDindex].Equals(gameRoom.ADMIN_ID))
+                if (userIDs[newAdminIDindex].Equals(gameRoom.ADMIN_ID) && gameRoom.PLAYER_COUNT != 1)
                     continue;
                 else break;
             }
@@ -650,16 +650,20 @@ namespace KalamburySerwer
         {
             GameClient client = this.GetGameClientById(adminId);
             GameRoom room = this.GetGameRoomByID(client.GetRoomId());
-           // try
-            //{
+            try
+            {
                 room.resetTimer();
+                room.STATUS = "OCZEKUJE";
                 Thread.Sleep(200);
                 this.InitializeNewRoomAdmin(room.ID);
                 room.CATCHWORD = String.Empty;
                 Thread.Sleep(100);
                 this.SendRoomUsersUpdate(room.ID);
-            //}
-            //catch (Exception e) { }
+                this.SendUpdateAboutRooms();
+            }
+            catch (Exception e) {
+                // xD
+            }
         }
     }
 }
