@@ -287,7 +287,8 @@ namespace KalamburySerwer
                 if (gameRoom.PLAYER_COUNT.Equals(0))
                 {
                     this.RemoveGameRoom(gameRoom);
-                    this._rooms.Remove(gameRoom);          
+                    this._rooms.Remove(gameRoom);
+                    gameRoom.resetTimer();        
                 }
                 Thread.Sleep(100);
                 this.SendUpdateAboutRooms();
@@ -649,13 +650,16 @@ namespace KalamburySerwer
         {
             GameClient client = this.GetGameClientById(adminId);
             GameRoom room = this.GetGameRoomByID(client.GetRoomId());
-
-            room.resetTimer();
-            Thread.Sleep(200);
-            this.InitializeNewRoomAdmin(room.ID);
-            room.CATCHWORD = String.Empty;
-            Thread.Sleep(100);
-            this.SendRoomUsersUpdate(room.ID);
+           // try
+            //{
+                room.resetTimer();
+                Thread.Sleep(200);
+                this.InitializeNewRoomAdmin(room.ID);
+                room.CATCHWORD = String.Empty;
+                Thread.Sleep(100);
+                this.SendRoomUsersUpdate(room.ID);
+            //}
+            //catch (Exception e) { }
         }
     }
 }

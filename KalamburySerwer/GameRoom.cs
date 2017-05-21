@@ -33,7 +33,6 @@ namespace KalamburySerwer
             _manager = manager;
 
             /* Ustawienia Taimera */
-            _catchphraseTimerThread = new Thread(timerThread);
             gameTimer = new System.Timers.Timer();
             gameTimer.Elapsed += new ElapsedEventHandler(timerTheradOneTick);
             gameTimer.Interval = 1000;
@@ -42,8 +41,8 @@ namespace KalamburySerwer
         public void resetTimer()
         {
             gameTimer.Stop();
-            _catchphraseTimerThread.Abort();
-            counter = timeForAnswer;                
+            this._catchphraseTimerThread.Abort();
+            this.counter = this.timeForAnswer;                
             foreach (GameClient client in _clients)
             {
                 client.SendMessage("TIMER_UPDATE:" + counter + ";");
@@ -52,39 +51,40 @@ namespace KalamburySerwer
 
         public void startTimer()
         {
-            counter = timeForAnswer;
-            _catchphraseTimerThread = new Thread(timerThread);
-            _catchphraseTimerThread.Start();
+            this.counter = this.timeForAnswer;
+            this._catchphraseTimerThread = new Thread(timerThread);
+            this._catchphraseTimerThread.Start();
         }
 
         public void timerThread()
         {
-            gameTimer.Start();
+            this.gameTimer.Start();
         }
 
         private void timerTheradOneTick(object source, ElapsedEventArgs e)
         {
-            if (PLAYER_COUNT == 0) _catchphraseTimerThread.Abort();
+
+            if (this.PLAYER_COUNT.Equals(0)) _catchphraseTimerThread.Abort();
             foreach (GameClient client in _clients)
             {
                 client.SendMessage("TIMER_UPDATE:" + counter + ";");
             }
-            counter--;
-            if(counter == 0)
-            {  
+            this.counter--;
+            if (this.counter.Equals(0))
+            {
                 resetTimer();
-                _manager.PassphraseNotFound(ADMIN_ID);
+                this._manager.PassphraseNotFound(ADMIN_ID);
             }
         }
 
         public void addClient(GameClient client)
         {
-            _clients.Add(client);
+            this._clients.Add(client);
         }
 
         public void removeClient(GameClient client)
         {
-            _clients.Remove(client);
+            this._clients.Remove(client);
         }
     }
 }

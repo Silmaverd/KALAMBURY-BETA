@@ -22,6 +22,8 @@ namespace KalamburyKlient
         {
             InitializeComponent();
             this.disconnectBtn.Enabled = false;
+            this.joinRoomBtn.Enabled = false;
+            this.createRoomBtn.Enabled = false;
             this.gameManager = new GameManager(this.loggedUsers,this.activeGameRooms);
         }
 
@@ -37,6 +39,8 @@ namespace KalamburyKlient
             this.userName.Text = this.USER_NAME;
             this.gameManager.Connect(this.USER_NAME,loginWindow.ipAddress.Text,Convert.ToInt32(loginWindow.port.Text));
             this.gameManager.SetUserName(this.USER_NAME);
+            this.joinRoomBtn.Enabled = true;
+            this.createRoomBtn.Enabled = true;
         }
 
         private void disconnectBtn_Click(object sender, EventArgs e)
