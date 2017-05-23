@@ -171,6 +171,16 @@ namespace KalamburyKlient
             convertedMessage = convertedMessage.Replace("<semicolon>", ";");
             return convertedMessage;
         }
+        // UPDATE TIMERA
+        public void timerUpdate(String timerValue)
+        {
+            if (this.timerLabel.InvokeRequired)
+                this.timerLabel.Invoke(new Action<string>(timerUpdate), timerValue);
+            else
+            {
+                this.timerLabel.Text = timerValue;
+            }
+        }
         // METODA WYWOŁYWANA W MOMENCIE OTRZYMANIA OD SERWERA WIADOMOŚĆI
         // ROOM_ADMIN, USTAWIA ONA KOMPONENTY DO RYSOWANIA ORAZ LOSOWANIA HASŁA NA WIDOCZNE
         public void BeRoomAdmin()

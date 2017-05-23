@@ -47,6 +47,7 @@
             this.chosenBLUE = new System.Windows.Forms.PictureBox();
             this.chosenGREEN = new System.Windows.Forms.PictureBox();
             this.chosenYELLOW = new System.Windows.Forms.PictureBox();
+            this.timerLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.drawingDesk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chosenColorVisualizer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chosenBLACK)).BeginInit();
@@ -252,12 +253,23 @@
             this.chosenYELLOW.TabStop = false;
             this.chosenYELLOW.Click += new System.EventHandler(this.chosenYELLOW_Click);
             // 
+            // timerLabel
+            // 
+            this.timerLabel.AutoSize = true;
+            this.timerLabel.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.timerLabel.Location = new System.Drawing.Point(274, 42);
+            this.timerLabel.Name = "timerLabel";
+            this.timerLabel.Size = new System.Drawing.Size(79, 25);
+            this.timerLabel.TabIndex = 19;
+            this.timerLabel.Text = "Timer";
+            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(1118, 685);
+            this.Controls.Add(this.timerLabel);
             this.Controls.Add(this.chosenYELLOW);
             this.Controls.Add(this.chosenGREEN);
             this.Controls.Add(this.chosenBLUE);
@@ -317,5 +329,6 @@
         private System.Windows.Forms.PictureBox chosenBLUE;
         private System.Windows.Forms.PictureBox chosenGREEN;
         private System.Windows.Forms.PictureBox chosenYELLOW;
+        private System.Windows.Forms.Label timerLabel;
     }
 }

@@ -41,3 +41,14 @@ D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.KickRe
 D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.ServerStatisticsWindow.resources
 D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.Properties.Resources.resources
 D:\BETA KALAMBUR\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.csproj.GenerateResource.Cache
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\bin\Debug\KalamburySerwer.exe.config
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.exe
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.pdb
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\bin\Debug\KalamburySerwer.exe
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\bin\Debug\KalamburySerwer.pdb
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.csprojResolveAssemblyReference.cache
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.ConnectionWindow.resources
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.KickReasonWindow.resources
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.ServerStatisticsWindow.resources
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.Properties.Resources.resources
+E:\GitHub\KALAMBURY-BETA\KalamburySerwer\obj\Debug\KalamburySerwer.csproj.GenerateResource.Cache
