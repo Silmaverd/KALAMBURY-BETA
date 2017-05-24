@@ -48,6 +48,7 @@
             this.chosenGREEN = new System.Windows.Forms.PictureBox();
             this.chosenYELLOW = new System.Windows.Forms.PictureBox();
             this.timerLabel = new System.Windows.Forms.Label();
+            this.privateChat = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.drawingDesk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chosenColorVisualizer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chosenBLACK)).BeginInit();
@@ -118,7 +119,7 @@
             // 
             this.LBL_ROOM_PLAYERS.AutoSize = true;
             this.LBL_ROOM_PLAYERS.Font = new System.Drawing.Font("Verdana", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LBL_ROOM_PLAYERS.Location = new System.Drawing.Point(776, 38);
+            this.LBL_ROOM_PLAYERS.Location = new System.Drawing.Point(775, 62);
             this.LBL_ROOM_PLAYERS.Name = "LBL_ROOM_PLAYERS";
             this.LBL_ROOM_PLAYERS.Size = new System.Drawing.Size(56, 13);
             this.LBL_ROOM_PLAYERS.TabIndex = 5;
@@ -128,7 +129,7 @@
             // 
             this.playersInTheRoom.FormattingEnabled = true;
             this.playersInTheRoom.ItemHeight = 16;
-            this.playersInTheRoom.Location = new System.Drawing.Point(779, 54);
+            this.playersInTheRoom.Location = new System.Drawing.Point(778, 78);
             this.playersInTheRoom.Name = "playersInTheRoom";
             this.playersInTheRoom.Size = new System.Drawing.Size(327, 148);
             this.playersInTheRoom.TabIndex = 6;
@@ -138,10 +139,10 @@
             this.chatRoom.Font = new System.Drawing.Font("Cambria", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.chatRoom.FormattingEnabled = true;
             this.chatRoom.ItemHeight = 12;
-            this.chatRoom.Location = new System.Drawing.Point(779, 208);
+            this.chatRoom.Location = new System.Drawing.Point(779, 232);
             this.chatRoom.Name = "chatRoom";
             this.chatRoom.ScrollAlwaysVisible = true;
-            this.chatRoom.Size = new System.Drawing.Size(327, 436);
+            this.chatRoom.Size = new System.Drawing.Size(327, 412);
             this.chatRoom.TabIndex = 7;
             this.chatRoom.TabStop = false;
             // 
@@ -166,9 +167,9 @@
             // catchwordGetBtn
             // 
             this.catchwordGetBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
-            this.catchwordGetBtn.Location = new System.Drawing.Point(933, 12);
+            this.catchwordGetBtn.Location = new System.Drawing.Point(884, 12);
             this.catchwordGetBtn.Name = "catchwordGetBtn";
-            this.catchwordGetBtn.Size = new System.Drawing.Size(172, 36);
+            this.catchwordGetBtn.Size = new System.Drawing.Size(221, 47);
             this.catchwordGetBtn.TabIndex = 10;
             this.catchwordGetBtn.Text = "LOSUJ!";
             this.catchwordGetBtn.UseVisualStyleBackColor = true;
@@ -263,12 +264,23 @@
             this.timerLabel.TabIndex = 19;
             this.timerLabel.Text = "Timer";
             // 
+            // privateChat
+            // 
+            this.privateChat.Location = new System.Drawing.Point(779, 12);
+            this.privateChat.Name = "privateChat";
+            this.privateChat.Size = new System.Drawing.Size(99, 47);
+            this.privateChat.TabIndex = 20;
+            this.privateChat.Text = "Prywatny czat";
+            this.privateChat.UseVisualStyleBackColor = true;
+            this.privateChat.Click += new System.EventHandler(this.privateChat_Click);
+            // 
             // GameWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SkyBlue;
             this.ClientSize = new System.Drawing.Size(1118, 685);
+            this.Controls.Add(this.privateChat);
             this.Controls.Add(this.timerLabel);
             this.Controls.Add(this.chosenYELLOW);
             this.Controls.Add(this.chosenGREEN);
@@ -330,5 +342,6 @@
         private System.Windows.Forms.PictureBox chosenGREEN;
         private System.Windows.Forms.PictureBox chosenYELLOW;
         private System.Windows.Forms.Label timerLabel;
+        private System.Windows.Forms.Button privateChat;
     }
 }

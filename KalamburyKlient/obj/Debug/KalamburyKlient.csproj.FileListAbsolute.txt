@@ -58,3 +58,4 @@ E:\GitHub\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.MainWindow.re
 E:\GitHub\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.Properties.Resources.resources
 E:\GitHub\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.RoomCreationWindow.resources
 E:\GitHub\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.csproj.GenerateResource.Cache
+E:\GitHub\KALAMBURY-BETA\KalamburyKlient\obj\Debug\KalamburyKlient.PrivateChat.resources
