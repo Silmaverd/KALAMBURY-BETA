@@ -169,8 +169,8 @@ namespace KalamburyKlient
             }
             if (commandHeader.Equals("PRIVATE_CHAT_MESSAGE"))
             {
-                Console.WriteLine("command 0" + COMMAND[0] + "command 1" + COMMAND[1] + "  command2" + COMMAND[2]);
-                this.gameWindow.handlePrivateChatMessage(COMMAND);
+                if (gameWindow != null)
+                    this.gameWindow.handlePrivateChatMessage(COMMAND);
             }
             // OTRZYMANO KOORDYNATY DO NARYSOWANIA
             if (commandHeader.Equals("COORDINATE"))
