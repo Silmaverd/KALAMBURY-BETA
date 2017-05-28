@@ -422,53 +422,60 @@ namespace KalamburyKlient
             this.chosenCOLOR = "YELLOW";
         }
 
+        public GameServer getGameServer()
+        {
+            return this.gameServer;
+        }
+
         private void privateChat_Click(object sender, EventArgs e)
         {
-            Thread privateChatWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
+            this.StartPrivateChatThread();
+        }
+
+        private void StartPrivateChatThread()
+        {
+            Thread privateChatWindowThread = new Thread(new ThreadStart(PrivateChatThreadStartingPoint));
             privateChatWindowThread.SetApartmentState(ApartmentState.STA);
             privateChatWindowThread.IsBackground = true;
             privateChatWindowThread.Start();
         }
 
-        private void ThreadStartingPoint()
+        private void PrivateChatThreadStartingPoint()
         {
             privateChatWindow = new PrivateChat(this);
             privateChatWindow.Show();
             Dispatcher.Run();
         }
 
-        public GameServer getGameServer()
-        {
-            return this.gameServer;
-        }
-
         public void handlePrivateChatMessage(string[] COMMAND)
         {
+            string usernameOfTheSender = COMMAND[1];
+            string messageContent = COMMAND[2];
+
             if(privateChatWindow != null)
             {
                 if(privateChatWindow.Visible)
                 {
-                    this.privateChatWindow.UpdateChatRoom(COMMAND[1] + ": " + COMMAND[2]);
+                    this.updatePrivateChatMessages(usernameOfTheSender, messageContent);
                 }
                 else
                 {
-                    Thread privateChatWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
-                    privateChatWindowThread.SetApartmentState(ApartmentState.STA);
-                    privateChatWindowThread.IsBackground = true;
-                    privateChatWindowThread.Start();
+                    this.StartPrivateChatThread();
                     Thread.Sleep(1000);
-                    this.privateChatWindow.UpdateChatRoom(COMMAND[1] + ": " + COMMAND[2]);
+                    this.updatePrivateChatMessages(usernameOfTheSender, messageContent);
                 }
             }
             else
             {
-                Thread privateChatWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
-                privateChatWindowThread.SetApartmentState(ApartmentState.STA);
-                privateChatWindowThread.IsBackground = true;
-                privateChatWindowThread.Start();
+                this.StartPrivateChatThread();
                 Thread.Sleep(1000);
-                this.privateChatWindow.UpdateChatRoom(COMMAND[1]+": "+COMMAND[2]);
+                this.updatePrivateChatMessages(usernameOfTheSender, messageContent);
             }
+        }
+
+        public void updatePrivateChatMessages(string usernameOfTheSender, string messageContent)
+        {
+            this.privateChatWindow.UpdateChatRoom(usernameOfTheSender + ": " + messageContent);
         }
     }
 }
