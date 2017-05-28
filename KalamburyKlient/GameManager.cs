@@ -167,6 +167,11 @@ namespace KalamburyKlient
             {
                 this.UpdateChatRoom(COMMAND[1]);
             }
+            if (commandHeader.Equals("PRIVATE_CHAT_MESSAGE"))
+            {
+                if (gameWindow != null)
+                    this.gameWindow.handlePrivateChatMessage(COMMAND);
+            }
             // OTRZYMANO KOORDYNATY DO NARYSOWANIA
             if (commandHeader.Equals("COORDINATE"))
             {

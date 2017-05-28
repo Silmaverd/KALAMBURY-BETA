@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
+using System.Windows.Threading;
 using System.Windows.Forms;
 
 namespace KalamburyKlient
@@ -18,6 +18,7 @@ namespace KalamburyKlient
         private bool mousePressed = false;
         private bool roomAdmin = false;
         private string chosenCOLOR = "BLACK";
+        private PrivateChat privateChatWindow;
 
         public GameWindow(string userName, string roomName)
         {
@@ -158,14 +159,14 @@ namespace KalamburyKlient
             } 
         }
         // KONWERSJA ZNAKÓW :, ; NA <colon> oraz <semicolon>
-        private string ConvertToSafeMessageFormat(string toConvert)
+        public string ConvertToSafeMessageFormat(string toConvert)
         {
             string convertedMessage = toConvert.Replace(":", "<colon>");
             convertedMessage = convertedMessage.Replace(";", "<semicolon>");
             return convertedMessage;
         }
         // KONWERSJA ODWROTNA DO POWYŻSZEJ
-        private string ConvertToDisplayableMessage(string toConvert)
+        public string ConvertToDisplayableMessage(string toConvert)
         {
             string convertedMessage = toConvert.Replace("<colon>", ":");
             convertedMessage = convertedMessage.Replace("<semicolon>", ";");
@@ -419,6 +420,55 @@ namespace KalamburyKlient
         {
             this.chosenColorVisualizer.BackColor = Color.Yellow;
             this.chosenCOLOR = "YELLOW";
+        }
+
+        private void privateChat_Click(object sender, EventArgs e)
+        {
+            Thread privateChatWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
+            privateChatWindowThread.SetApartmentState(ApartmentState.STA);
+            privateChatWindowThread.IsBackground = true;
+            privateChatWindowThread.Start();
+        }
+
+        private void ThreadStartingPoint()
+        {
+            privateChatWindow = new PrivateChat(this);
+            privateChatWindow.Show();
+            Dispatcher.Run();
+        }
+
+        public GameServer getGameServer()
+        {
+            return this.gameServer;
+        }
+
+        public void handlePrivateChatMessage(string[] COMMAND)
+        {
+            if(privateChatWindow != null)
+            {
+                if(privateChatWindow.Visible)
+                {
+                    this.privateChatWindow.UpdateChatRoom(COMMAND[1] + ": " + COMMAND[2]);
+                }
+                else
+                {
+                    Thread privateChatWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
+                    privateChatWindowThread.SetApartmentState(ApartmentState.STA);
+                    privateChatWindowThread.IsBackground = true;
+                    privateChatWindowThread.Start();
+                    Thread.Sleep(1000);
+                    this.privateChatWindow.UpdateChatRoom(COMMAND[1] + ": " + COMMAND[2]);
+                }
+            }
+            else
+            {
+                Thread privateChatWindowThread = new Thread(new ThreadStart(ThreadStartingPoint));
+                privateChatWindowThread.SetApartmentState(ApartmentState.STA);
+                privateChatWindowThread.IsBackground = true;
+                privateChatWindowThread.Start();
+                Thread.Sleep(1000);
+                this.privateChatWindow.UpdateChatRoom(COMMAND[1]+": "+COMMAND[2]);
+            }
         }
     }
 }

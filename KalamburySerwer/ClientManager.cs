@@ -332,6 +332,13 @@ namespace KalamburySerwer
                     }
                 }
             }
+            if (COMMAND[0].Equals("PRIVATE_CHAT_MESSAGE"))
+            {
+                GameClient senderUser = this.GetGameClientById(this.GetIdByUserName(COMMAND[1]));
+                GameClient receiverUser = this.GetGameClientById(userId);
+                senderUser.SendMessage("PRIVATE_CHAT_MESSAGE:"+ receiverUser.GetUserName() + ":" + COMMAND[2] + ";");
+                receiverUser.SendMessage("PRIVATE_CHAT_MESSAGE:"+ receiverUser.GetUserName() + ":"+COMMAND[2]+";");
+            }
             // ZAPYTANIE O HASŁO
             if (COMMAND[0].Equals("GET_CATCHWORD"))
             {

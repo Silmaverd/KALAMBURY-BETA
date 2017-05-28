@@ -44,9 +44,16 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Coordinate.cs" />
+    <Compile Include="PrivateChat.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PrivateChat.Designer.cs">
+      <DependentUpon>PrivateChat.cs</DependentUpon>
+    </Compile>
     <Compile Include="GameManager.cs" />
     <Compile Include="GameServer.cs" />
     <Compile Include="GameWindow.cs">
@@ -75,6 +82,9 @@
     <Compile Include="RoomCreationWindow.Designer.cs">
       <DependentUpon>RoomCreationWindow.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="PrivateChat.resx">
+      <DependentUpon>PrivateChat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GameWindow.resx">
       <DependentUpon>GameWindow.cs</DependentUpon>
     </EmbeddedResource>
