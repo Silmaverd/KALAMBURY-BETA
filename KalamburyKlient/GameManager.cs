@@ -11,8 +11,8 @@ namespace KalamburyKlient
     class GameManager
     {
         private GameServer gameServer;          // INSTANCJA SERWERA GRY
-        private ListBox activePlayers;          // LISTA USERNAME AKTYWNYCH GRACZY 
-        private ListBox activeGameRooms;        // LISTA NAZW AKTYWNYCH POKOI GRY
+        private ListBox activePlayersList;      // LISTA USERNAME AKTYWNYCH GRACZY 
+        private ListBox activeGameRoomsList;    // LISTA NAZW AKTYWNYCH POKOI GRY
         private Thread serverListeningThread;   // WĄTEK NASŁUCHUJĄCY NA KOMUNIKACJĘ Z SERWEREM
         private GameWindow gameWindow;          // GLOWNE OKNO GRY, TUTAJ RYSUJEMY ORAZ ODGANUJEMY HASŁA
         private Thread gameThread;              // WATEK W KTÓRYM gameWindow JEST OBSŁUGIWANE
@@ -25,13 +25,11 @@ namespace KalamburyKlient
         private string [] _userNames;
         private string [] _roomNames;
 
-        private Coordinate[] roomCoordinates;
-
         public GameManager(ListBox users, ListBox rooms)
         {
             this.gameServer = new GameServer();
-            this.activeGameRooms = rooms;
-            this.activePlayers = users;
+            this.activeGameRoomsList = rooms;
+            this.activePlayersList = users;
             this.gameThread = new Thread(this.StartGame);
         }
 
@@ -78,28 +76,28 @@ namespace KalamburyKlient
         // METODA AKTUALIZUJĄCA LISTĘ USERNAME AKTYWNYCH UŻYTKOWNIKÓW
         public void UpdateUsers()
         {
-            if (this.activePlayers.InvokeRequired)
+            if (this.activePlayersList.InvokeRequired)
             {
-                this.activePlayers.Invoke(new Action(UpdateUsers));
+                this.activePlayersList.Invoke(new Action(UpdateUsers));
             }else
             {
-                this.activePlayers.Items.Clear();
+                this.activePlayersList.Items.Clear();
                 for(int i = 1; i < this._userNames.Length; i++)
-                    this.activePlayers.Items.Add(this._userNames[i]);
+                    this.activePlayersList.Items.Add(this._userNames[i]);
             }
         }
         // METODA AKTUALIZUJĄCA LISTĘ ROOMNAME ISTNIEJĄCYCH POKOI
         public void UpdateRooms()
         {
-            if (this.activeGameRooms.InvokeRequired)
+            if (this.activeGameRoomsList.InvokeRequired)
             {
-                this.activeGameRooms.Invoke(new Action(UpdateRooms));
+                this.activeGameRoomsList.Invoke(new Action(UpdateRooms));
             }
             else
             {
-                this.activeGameRooms.Items.Clear();
+                this.activeGameRoomsList.Items.Clear();
                 for (int i = 1; i < this._roomNames.Length; i++)
-                    this.activeGameRooms.Items.Add(this._roomNames[i]);
+                    this.activeGameRoomsList.Items.Add(this._roomNames[i]);
             }
         }
         // METODA NASŁUCHUJĄCA NA WIADOMOŚCI OD SERWERA
@@ -151,92 +149,91 @@ namespace KalamburyKlient
         {
             string commandHeader = COMMAND[0];
 
-            if (commandHeader.Equals("USER_DISCONNECTED"))
+            switch (commandHeader)
             {
-                string disconnectionReason = COMMAND[1];
-                MessageBox.Show("Rozłączenie z serwerem!\nPowód: \n" + disconnectionReason);
-                this.Disconnected = true;
-                this.Disconnect();
-            }
-            if (commandHeader.Equals("ROOM_USERS_UPDATE"))
-            {
-                if(gameWindow!= null)
-                    this.gameWindow.UpdateGameRoomUsers(COMMAND);
-            }
-            if(commandHeader.Equals("CHAT_MESSAGE"))
-            {
-                this.UpdateChatRoom(COMMAND[1]);
-            }
-            if (commandHeader.Equals("PRIVATE_CHAT_MESSAGE"))
-            {
-                if (gameWindow != null)
-                    this.gameWindow.handlePrivateChatMessage(COMMAND);
-            }
-            // OTRZYMANO KOORDYNATY DO NARYSOWANIA
-            if (commandHeader.Equals("COORDINATE"))
-            {
-                StringBuilder coordinates = new StringBuilder();
-                // OD 2 BO [0]->COORDINATE, [1]->COLOR
-                for(int i = 2; i < COMMAND.Length; i++) {
-                    coordinates.Append(COMMAND[i] + ":");
-                }
-                this.UpdateCoordinates(coordinates.ToString(),COMMAND[1]);
-            }
-            if (commandHeader.Equals("ROOM_CREATION_OK"))
-            {
-                this.gameThread = new Thread(this.StartGame);
-                this.gameThread.Start();
-            }
-            if (commandHeader.Equals("ROOM_CREATION_FAILED"))
-            {
-                string reason = COMMAND[1];
-                MessageBox.Show("Nie udało się utworzyć pokoju gry.\nPowód:\n" + reason);
-            }
-            if (commandHeader.Equals("ROOM_JOIN_OK"))
-            {
-                this.gameThread = new Thread(this.StartGame);
-                this.gameThread.Start();
-            }
-            if (commandHeader.Equals("ROOM_JOIN_FAILED"))
-            {
-                string reason = COMMAND[1];
-                MessageBox.Show("Nie udało się dołączyć do pokoju gry.\nPowód:\n" + reason);
-            }
-            if (commandHeader.Equals("USERS_UPDATE"))
-            {
-                this._userNames = COMMAND;
-                this.UpdateUsers();   
-            }
-            // OTRZYMANO CATCHWORD
-            if (commandHeader.Equals("CATCHWORD"))
-            {
-                string CATCHWORD = COMMAND[1];
-                this.gameWindow.SetCatchWord(CATCHWORD);
-            }
-            if (commandHeader.Equals("ROOMS_UPDATE"))
-            {
-                this._roomNames = COMMAND;
-                this.UpdateRooms();
-            }
-            // OTRZYMANO INFORMACJE O BYCIU ADMINEM
-            if (commandHeader.Equals("ROOM_ADMIN"))
-            {
-                this.gameWindow.BeRoomAdmin();
-                this.gameWindow.ClearCatchWord();
-            }
-            // OTRZYMANO INFORMACJE O BYCIU ZGADUJĄCYM
-            if (commandHeader.Equals("ROOM_USER"))
-            {
-                this.gameWindow.BeNormalUser();
-                this.gameWindow.ClearCatchWord();
-            }
-            if (commandHeader.Equals("DESK_CLEAR"))
-            {
-                this.gameWindow.ClearDesk();
-            }
-            if (commandHeader.Equals("TIMER_UPDATE"))
-            {
-                this.gameWindow.timerUpdate(COMMAND[1]);
+                case "USER_DISCONNECTED":
+                    string disconnectionReason = COMMAND[1];
+                    MessageBox.Show("Rozłączenie z serwerem!\nPowód: \n" + disconnectionReason);
+                    this.Disconnected = true;
+                    this.Disconnect();
+                    break;
+
+                case "ROOM_USERS_UPDATE":
+                    if (gameWindow != null)
+                        this.gameWindow.UpdateGameRoomUsers(COMMAND);
+                    break;
+
+                case "CHAT_MESSAGE":
+                    this.UpdateChatRoom(COMMAND[1]);
+                    break;
+
+                case "PRIVATE_CHAT_MESSAGE":
+                    if (gameWindow != null)
+                        this.gameWindow.handlePrivateChatMessage(COMMAND);
+                    break;
+
+                case "COORDINATE":
+                    StringBuilder coordinates = new StringBuilder();
+                    // OD 2 BO [0]->COORDINATE, [1]->COLOR
+                    for (int i = 2; i < COMMAND.Length; i++)
+                    {
+                        coordinates.Append(COMMAND[i] + ":");
+                    }
+                    this.UpdateCoordinates(coordinates.ToString(), COMMAND[1]);
+                    break;
+
+                case "ROOM_CREATION_OK":
+                    this.gameThread = new Thread(this.StartGame);
+                    this.gameThread.Start();
+                    break;
+
+                case "ROOM_CREATION_FAILED":
+                    string creationFailedReason = COMMAND[1];
+                    MessageBox.Show("Nie udało się utworzyć pokoju gry.\nPowód:\n" + creationFailedReason);
+                    break;
+
+                case "ROOM_JOIN_OK":
+                    this.gameThread = new Thread(this.StartGame);
+                    this.gameThread.Start();
+                    break;
+
+                case "ROOM_JOIN_FAILED":
+                    string joinFailedReason = COMMAND[1];
+                    MessageBox.Show("Nie udało się dołączyć do pokoju gry.\nPowód:\n" + joinFailedReason);
+                    break;
+
+                case "USERS_UPDATE":
+                    this._userNames = COMMAND;
+                    this.UpdateUsers();
+                    break;
+
+                case "CATCHWORD":
+                    string CATCHWORD = COMMAND[1];
+                    this.gameWindow.SetCatchWord(CATCHWORD);
+                    break;
+
+                case "ROOMS_UPDATE":
+                    this._roomNames = COMMAND;
+                    this.UpdateRooms();
+                    break;
+
+                case "ROOM_ADMIN":
+                    this.gameWindow.BeRoomAdmin();
+                    this.gameWindow.ClearCatchWord();
+                    break;
+
+                case "ROOM_USER":
+                    this.gameWindow.BeNormalUser();
+                    this.gameWindow.ClearCatchWord();
+                    break;
+
+                case "DESK_CLEAR":
+                    this.gameWindow.ClearDesk();
+                    break;
+
+                case "TIMER_UPDATE":
+                    this.gameWindow.timerUpdate(COMMAND[1]);
+                    break;
             }
         }
 
